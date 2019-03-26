@@ -1,6 +1,6 @@
 {
   "name": "@aergoio/athena-analysis",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Aergo smart contract code based analysis.",
   "main": "dist/athena-analysis.cjs.js",
   "module": "dist/athena-analysis.esm.js",
@@ -33,6 +33,10 @@
     "url": "https://github.com/aergoio/athena/issues"
   },
   "homepage": "https://github.com/aergoio/athena#readme",
-  "devDependencies": {},
-  "dependencies": {}
+  "devDependencies": {
+    "rollup-plugin-copy-glob": "^0.3.0"
+  },
+  "dependencies": {
+    "@aergoio/luaparse": "aergoio/luaparse#master"
+  }
 }

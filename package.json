@@ -24,6 +24,7 @@
     "@types/mocha": "^5.2.6",
     "@typescript-eslint/eslint-plugin": "^1.5.0",
     "@typescript-eslint/parser": "^1.5.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-register-ts": "^7.0.0",
     "chai": "^4.1.7",
     "chai-as-promised": "^7.1.0",

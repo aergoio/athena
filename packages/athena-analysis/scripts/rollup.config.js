@@ -1,13 +1,14 @@
+import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
-import babel from 'rollup-plugin-babel';
+import copy from 'rollup-plugin-copy-glob';
 import pkg from '../package.json';
 
 const extensions = [
   '.js', '.jsx', '.ts', '.tsx',
 ];
 
-const name = 'RollupTypeScriptBabel';
+const name = 'AthenaAnalysis';
 
 export default {
   input: './src/index.ts',
@@ -25,6 +26,11 @@ export default {
 
     // Compile TypeScript/JavaScript files
     babel({ extensions, include: ['src/**/*'] }),
+
+    // Copy files
+    copy([
+        { files: "src/lua/provider/res/*", dest: "dist/res" }
+    ], { verbose: true })
   ],
 
   output: [{

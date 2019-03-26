@@ -1,3 +1,3 @@
-import * as utils from './utils';
+import {luaTypes, LuaImportResolver, LuaSuggester, LuaLinter} from './lua';
 
-export {utils};
+export {luaTypes, LuaImportResolver, LuaSuggester, LuaLinter};
