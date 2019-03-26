@@ -1,0 +1,38 @@
+{
+  "name": "@aergoio/athena-compiler",
+  "version": "0.1.0",
+  "description": "Aergo smart contract compiler.",
+  "main": "dist/athena-compiler.cjs.js",
+  "module": "dist/athena-compiler.esm.js",
+  "browser": "dist/athena-compiler.umd.js",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "yarn run type-check -- --watch",
+    "lint": "eslint --fix ./src/**/*.ts ./test/**/*.ts",
+    "test": "nyc mocha --exit --require babel-register-ts test/**/*.ts",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "rollup -c ./scripts/rollup.config.js ",
+    "build": "yarn run test && yarn run build:types && yarn run build:js",
+    "docs": "typedoc --out docs ./src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aergoio/athena.git"
+  },
+  "keywords": [
+    "aergo",
+    "smart-contract",
+    "athena",
+    "lua",
+    "ascl"
+  ],
+  "author": "aergo team and contributors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aergoio/athena/issues"
+  },
+  "homepage": "https://github.com/aergoio/athena#readme",
+  "devDependencies": {},
+  "dependencies": {}
+}
