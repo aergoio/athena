@@ -1,3 +1,4 @@
-import * as utils from './utils';
+import {CompilerFactory} from './api';
+import {CompilerType} from './model';
 
-export {utils};
+export {CompilerType, CompilerFactory};

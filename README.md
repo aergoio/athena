@@ -8,10 +8,10 @@ Aergo smart contract tools
 
 ## Usage (For all the packages)
 
-* show command list : `yarn run`
-* install : `yarn install`
-* clean node_modules : `yarn run clean-modules`
-* lint : `yarn run lint`
-* test : `yarn run test`
-* build : `yarn run build`
-* docs : `yarn run docs`
+* Show command list : `yarn run`
+* Install : `yarn install`
+* Clean node_modules : `yarn run clean-modules`
+* Lint : `yarn run lint`
+* Test : `yarn run test`
+* Build : `yarn run build`
+* Docs : `yarn run docs`
