@@ -1,7 +1,7 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
-import copy from 'rollup-plugin-copy-glob';
+import copy from 'rollup-plugin-cpy';
 import pkg from '../package.json';
 
 const extensions = [
@@ -28,9 +28,13 @@ export default {
     babel({ extensions, include: ['src/**/*'] }),
 
     // Copy files
-    copy([
-        { files: "src/lua/provider/res/*", dest: "dist/res" }
-    ], { verbose: true })
+    copy({
+      files: ['src/lua/provider/res/*.json'],
+      dest: 'dist/res',
+      options: {
+        verbose: true,
+      }
+    })
   ],
 
   output: [{

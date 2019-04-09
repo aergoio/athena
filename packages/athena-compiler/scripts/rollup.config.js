@@ -1,7 +1,6 @@
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
-import copy from 'rollup-plugin-cpy';
 import pkg from '../package.json';
 
 const extensions = [
@@ -33,15 +32,6 @@ export default {
 
     // Compile TypeScript/JavaScript files
     babel({ extensions, include: ['src/**/*'] }),
-
-    // Copy files
-    copy({
-      files: "src/lua/res/*",
-      dest: "dist/res",
-      options: {
-        verbose: true
-      }
-    })
   ],
 
   output: [{

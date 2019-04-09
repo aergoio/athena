@@ -36,8 +36,7 @@
   "homepage": "https://github.com/aergoio/athena#readme",
   "devDependencies": {
     "@types/ffi": "^0.2.2",
-    "@types/ref-array": "^0.0.28",
-    "rollup-plugin-cpy": "^1.1.0"
+    "@types/ref-array": "^0.0.28"
   },
   "dependencies": {
     "bs58check": "^2.1.2",
