@@ -260,12 +260,12 @@
         }
       ]
     },
-    "view": {
+    "register_view": {
       "__possibleValues": [
         {
           "type": "function",
           "kind": "member",
-          "snippet": "view(${1:func...})"
+          "snippet": "register_view(${1:func...})"
         }
       ]
     }

@@ -1,9 +1,9 @@
 export default class CompileResult {
-  readonly abi: string;
   readonly payload: string;
+  readonly abi: string;
 
-  constructor(abi: string, payload: string) {
-    this.abi = abi;
+  constructor(payload: string, abi: string) {
     this.payload = payload;
+    this.abi = abi;
   }
 }

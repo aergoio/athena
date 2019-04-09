@@ -1,5 +1,3 @@
-import "./library.lua"
-
 function event(key, arg1, arg2)
   contract.event("event", key, arg1, arg2)
 end
@@ -12,4 +10,5 @@ function get(key)
   return system.getItem(key)
 end
 
-abi.register(event, set, get)
+abi.register(event, set)
+abi.register_view(get)
