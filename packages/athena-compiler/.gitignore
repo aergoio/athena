@@ -1,4 +1,4 @@
 *.o
 *.so
-*.dylib
-*.dll
+ext/*.dylib
+ext/*.dll
