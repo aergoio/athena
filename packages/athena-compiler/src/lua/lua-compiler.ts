@@ -1,3 +1,5 @@
+import os from 'os';
+
 import bs58check from 'bs58check';
 import ffi from 'ffi';
 import ref from 'ref';
@@ -10,7 +12,8 @@ import { CompileResult } from "../model";
 import LuaDependencyResolver from './dependency-resolver';
 import { numberToByteArray as numberToLittleEndianByteArray } from '../util/endian';
 
-const COMPILER_LIB_OSX = "/res/libcompiler";
+const COMPILER_LIB_WINDOW = "libcompiler_window";
+const COMPILER_LIB_OSX = "libcompiler_osx";
 
 const LUA_CODE_VERSION = 0xC0;
 
@@ -32,7 +35,7 @@ export default class LuaNativeCompiler implements Compiler {
     const lua_State_ptr = ref.refType(lua_State);
     const compile_result_ptr = ref.refType(compile_result);
 
-    this.libCompiler = ffi.Library(__dirname + "/" + COMPILER_LIB_OSX, {
+    this.libCompiler = ffi.Library(this.getCompilerLib(), {
       'luac_vm_newstate': [ lua_State_ptr, []],
       'luac_vm_close': [ 'void', [ lua_State_ptr ]],
       'vm_loadstring': [ 'string', [ lua_State_ptr, 'string' ]],
@@ -65,7 +68,7 @@ export default class LuaNativeCompiler implements Compiler {
 
     const bytecode = ref.reinterpret(result.bc_ptr.buffer, result.bc_len);
     const abi = ref.reinterpret(result.abi_ptr.buffer, result.abi_len);
-    const abiInStr = abi.toString();
+    const abiInStr = JSON.stringify(JSON.parse(abi.toString()), null, 2);
     const payload = this.genPayload(bytecode, abi);
 
     this.libCompiler.luac_vm_close(lua_State_ptr);
@@ -103,6 +106,20 @@ export default class LuaNativeCompiler implements Compiler {
     });
 
     return bs58check.encode(Buffer.from(rawPayload.buffer));
+  }
+
+  protected getCompilerLib(): string {
+    let compilerLib = __dirname + "/res/";
+    if ('darwin' === os.platform()) {
+      compilerLib = compilerLib + COMPILER_LIB_OSX;
+    } else if ('linux' === os.platform()) {
+      // TODO
+    } else if ('win32' === os.platform()) {
+      compilerLib = compilerLib + COMPILER_LIB_WINDOW
+    } else {
+      throw "UnSupported os type";
+    }
+    return compilerLib;
   }
 
 }
