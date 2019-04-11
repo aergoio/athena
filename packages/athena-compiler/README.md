@@ -29,18 +29,6 @@ ascl
 // TODO
 ```
 
-## Build native library
-
-Make sure `MINGW_PREFIX` is set on enviroment variable
-
-eg. ~/.bashrc
-
-```sh
-export MINGW_PREFIX=/usr/local/Cellar/mingw-w64/6.0.0/bin/x86_64-w64-mingw32-
-```
-
-Build : `yarn run build:libs`
-
 ## Usage
 
 * Install dependenty : `yarn install`

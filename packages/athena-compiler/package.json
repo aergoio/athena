@@ -11,7 +11,6 @@
     "type-check:watch": "yarn run type-check -- --watch",
     "lint": "eslint --fix ./src/**/*.ts ./test/**/*.ts",
     "test": "nyc mocha --exit --require babel-register-ts test/**/*.ts",
-    "build:libs": "pushd ./ext && make clean-all && make && popd",
     "build": "yarn run test &&  yarn run build:types && yarn run build:js",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "rollup -c ./scripts/rollup.config.js ",
@@ -35,13 +34,7 @@
   },
   "homepage": "https://github.com/aergoio/athena#readme",
   "devDependencies": {
-    "@types/ffi": "^0.2.2",
-    "@types/ref-array": "^0.0.28",
     "rollup-plugin-cpy": "^1.1.0"
   },
-  "dependencies": {
-    "bs58check": "^2.1.2",
-    "ffi": "^2.3.0",
-    "ref-array": "^1.2.0"
-  }
+  "dependencies": {}
 }
