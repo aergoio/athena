@@ -1,6 +1,6 @@
 {
   "name": "@aergoio/athena-compiler",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "Aergo smart contract compiler.",
   "main": "dist/athena-compiler.cjs.js",
   "module": "dist/athena-compiler.esm.js",
