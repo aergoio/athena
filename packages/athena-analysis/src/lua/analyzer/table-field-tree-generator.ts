@@ -1,61 +1,55 @@
 import logger from 'loglevel';
 
-import {LuaTableFieldTree, luaTypes} from '../model';
+import { LuaTableFieldTree, luaTypes } from '../../model';
 
 import Visitor from './visitor';
-import * as luaparse from './luaparse-types';
+import { buildFuncSnippet } from './utils';
+import * as luaparseType from './luaparse-types';
 
 export default class LuaTableFieldTreeGenerator implements Visitor {
-  tableFieldTree: LuaTableFieldTree;
+
+  protected tableFieldTree: LuaTableFieldTree;
 
   constructor() {
-    this.tableFieldTree = LuaTableFieldTree.create(undefined);
+    this.tableFieldTree = new LuaTableFieldTree();
   }
 
-  getGenerated() {
+  public getGenerated() {
     logger.debug("Generated table field tree", this.tableFieldTree);
     return this.tableFieldTree;
   }
 
-  onCreateNode(node: any) {
-    switch (node.type) {
-      // only parse assignment for global, local statement for local variable
-      case luaparse.LUAPARSE_ASSIGNMENT_STATEMENT:
-      case luaparse.LUAPARSE_LOCAL_STATEMENT:
-        this._parseAssignmentStatement(node);
-        break;
-      default:
-        // do nothing
-        break;
+  public onCreateNode(node: any) {
+    const nodeType = node.type;
+    // globalVariable = ...
+    // local localVariable = ...
+    if (luaparseType.LUAPARSE_ASSIGNMENT_STATEMENT === nodeType ||
+        luaparseType.LUAPARSE_LOCAL_STATEMENT === nodeType) {
+      this.parseAssignmentStatement(node);
     }
   }
 
-  onCreateScope(scope: any): void {
+  public onCreateScope(scope: any): void {}
 
-  }
+  public onDestroyScope(scope: any): void {}
 
-  onDestroyScope(scope: any): void {
+  public onLocalDeclaration(identifierName: string): void {}
 
-  }
-
-  onLocalDeclaration(identifierName: string): void {
-
-  }
-
-  onFunctionSignature(signature: any) {
+  public onFunctionSignature(signature: any) {
     // only parse named function with table member expression function
+    // eg. SomeTable = { field = function (arg1, arg2) ... }
     if (signature.identifier === null ||
-        luaparse.LUAPARSE_TABLE_MEMBER_EXPRESSION !== signature.identifier.type) {
+        luaparseType.LUAPARSE_TABLE_MEMBER_EXPRESSION !== signature.identifier.type) {
       return;
     }
-    const fieldChain = this._parseIdentifierExpression(signature.identifier);
-    const funcName = fieldChain[fieldChain.length - 1];
-    const funcSnippet = this._funcArgAsPlaceHolder(funcName, signature.parameters);
+
+    const fieldChain = this.parseFieldChain(signature.identifier);
+    const lastField = fieldChain[fieldChain.length - 1];
+    const funcSnippet = buildFuncSnippet(lastField, signature.parameters);
     this.tableFieldTree.addFieldValue(fieldChain, luaTypes.LUA_TYPE_FUNCTION, funcSnippet);
   }
 
-  // SomeTable = { field = ... }
-  _parseAssignmentStatement(node: any) {
+  protected parseAssignmentStatement(node: any) {
     // only parse when init exists
     if (node.init.length === 0) {
       return;
@@ -63,95 +57,114 @@ export default class LuaTableFieldTreeGenerator implements Visitor {
 
     const identifier = node.variables[0];
     const init = node.init[0];
-    if (luaparse.LUAPARSE_IDENTIFIER === identifier.type) {
-      if (luaparse.LUAPARSE_TABLE_CONSTRUCTOR_EXPRESSION === init.type) {
-        const fieldChain = this._parseIdentifierExpression(identifier);
-        this._parseTable(fieldChain, init);
-      } else if (luaparse.LUAPARSE_TABLE_CALL_EXPRESSION === init.type) {
+
+    // SomeTable = ...
+    if (luaparseType.LUAPARSE_IDENTIFIER === identifier.type) {
+      // SomeTable = { field = ... }
+      if (luaparseType.LUAPARSE_TABLE_CONSTRUCTOR_EXPRESSION === init.type) {
+        const fieldChain = this.parseFieldChain(identifier);
+        this.parseTable(fieldChain, init);
+      }
+
+      // SomeTable = OtherTable { field = ... }
+      if (luaparseType.LUAPARSE_TABLE_CALL_EXPRESSION === init.type) {
         // TODO : parse table call
       }
-    } else if (luaparse.LUAPARSE_TABLE_MEMBER_EXPRESSION === identifier.type) {
-      const fieldChain = this._parseIdentifierExpression(identifier);
-      this._parseFieldValue(fieldChain, init);
-    } else if (luaparse.LUAPARSE_TABLE_INDEX_EXPRESSION === identifier.type) {
-      // ignore NumericLiteralCase. That's array indexing
-      if (luaparse.LUAPARSE_STRING_LITERAL !== identifier.index.type) {
+    }
+
+    // SomeTable.field = ...
+    if (luaparseType.LUAPARSE_TABLE_MEMBER_EXPRESSION === identifier.type) {
+      const fieldChain = this.parseFieldChain(identifier);
+      this.addValueForFieldChain(fieldChain, init);
+    }
+
+    // SomeTable["field"] = ...
+    if (luaparseType.LUAPARSE_TABLE_INDEX_EXPRESSION === identifier.type) {
+      // ignore 'SomeTable[33] = ...' since it's array indexing
+      if (luaparseType.LUAPARSE_STRING_LITERAL !== identifier.index.type) {
         return;
       }
-      const fieldChain = this._parseIdentifierExpression(identifier);
-      this._parseFieldValue(fieldChain, init);
+      const fieldChain = this.parseFieldChain(identifier);
+      this.addValueForFieldChain(fieldChain, init);
     }
   }
 
-  _parseIdentifierExpression(expression: any): any {
+  protected parseFieldChain(expression: any): any {
     // SomeTable = ...
-    if (luaparse.LUAPARSE_IDENTIFIER === expression.type) {
+    if (luaparseType.LUAPARSE_IDENTIFIER === expression.type) {
       return [expression.name];
     }
 
     // SomeTable.field1.field2 = ...
-    if (luaparse.LUAPARSE_TABLE_MEMBER_EXPRESSION === expression.type) {
-      const fieldChain = this._parseIdentifierExpression(expression.base);
+    if (luaparseType.LUAPARSE_TABLE_MEMBER_EXPRESSION === expression.type) {
+      const fieldChain = this.parseFieldChain(expression.base);
       fieldChain.push(expression.identifier.name);
       return fieldChain;
     }
 
     // SomeTable["member"] = ...
-    if (luaparse.LUAPARSE_TABLE_INDEX_EXPRESSION === expression.type) {
-      const fieldChain = this._parseIdentifierExpression(expression.base);
+    if (luaparseType.LUAPARSE_TABLE_INDEX_EXPRESSION === expression.type) {
+      const fieldChain = this.parseFieldChain(expression.base);
       fieldChain.push(expression.index.value);
       return fieldChain;
     }
   }
 
-  _parseTable(fieldChain: Array<string>, table: any) {
-    for (let i = 0; i < table.fields.length; ++i) {
-      const field = table.fields[i];
-      if (luaparse.LUAPARSE_TABLE_KEY_STRING === field.type) {
+  protected parseTable(fieldChain: string[], table: any) {
+    const fields: any[] = table.fields;
+    fields.forEach(field => {
+      // { field = "string" }
+      if (luaparseType.LUAPARSE_TABLE_KEY_STRING === field.type) {
         const fieldName = field.key.name;
-        this._parseFieldValue(fieldChain.concat(fieldName), field.value);
-      } else if (luaparse.LUAPARSE_TABLE_KEY === field.type) {
+        this.addValueForFieldChain(fieldChain.concat(fieldName), field.value);
+      }
+
+      // { ["fieldName"] = "init" }
+      if (luaparseType.LUAPARSE_TABLE_KEY === field.type) {
         // ignore NumericLiteralCase. That's array indexing
-        if (luaparse.LUAPARSE_STRING_LITERAL === field.key.type) {
+        if (luaparseType.LUAPARSE_STRING_LITERAL === field.key.type) {
           const fieldName = field.key.value;
-          this._parseFieldValue(fieldChain.concat(fieldName), field.value);
+          this.addValueForFieldChain(fieldChain.concat(fieldName), field.value);
         }
-      } else if (luaparse.LUAPARSE_TABLE_VALUE === field.type) {
+      }
+
+      // { field }
+      if (luaparseType.LUAPARSE_TABLE_VALUE === field.type) {
         // no special value for 'TableValue'
         const fieldName = field.value.name;
         const memberType = luaTypes.LUA_TYPE_TABLE_MEMBER;
         this.tableFieldTree.addFieldValue(fieldChain.concat(fieldName), memberType, fieldName);
-      } else {
-        logger.warn("Unexpected table field type", field.type);
       }
-    }
+    });
   }
 
-  _parseFieldValue(fieldChain: Array<string>, fieldValue: any) {
+  protected addValueForFieldChain(fieldChain: string[], fieldValue: any): void {
     const valueType = fieldValue.type;
-    const resolvedType = luaparse.resolveType(valueType);
-    if (luaparse.LUAPARSE_LITERALS.indexOf(valueType) !== -1) {
-      this.tableFieldTree.addFieldValue(fieldChain, resolvedType, fieldChain[fieldChain.length - 1]);
-    } else if (luaparse.LUAPARSE_FUNCTION_DECLARATION === valueType) {
-      const funcName = fieldChain[fieldChain.length - 1];
-      const funcSnippet = this._funcArgAsPlaceHolder(funcName, fieldValue.parameters);
-      this.tableFieldTree.addFieldValue(fieldChain, resolvedType, funcSnippet);
-    } else if (luaparse.LUAPARSE_IDENTIFIER === valueType) {
-      // TODO : resolve field tree by semantic analysis?
-      this.tableFieldTree.addFieldValue(fieldChain, resolvedType, fieldChain[fieldChain.length - 1]);
-    } else if (luaparse.LUAPARSE_TABLE_CONSTRUCTOR_EXPRESSION === valueType) {
-      this._parseTable(fieldChain, fieldValue);
-    }
-  }
+    const resolvedType = luaparseType.resolveType(valueType);
 
-  _funcArgAsPlaceHolder(funcName: string, parameters: Array<any>) {
-    const asPlaceholder = (index: number, name: string) => "${" + (index + 1) + ":" + name + "}";
-    return funcName + "(" + parameters.reduce((acc, curr, index) => {
-      if (0 !== index) {
-        return  acc + ", " + asPlaceholder(index, curr.name);
-      }
-      return asPlaceholder(index, curr.name);
-    }, "") + ")";
+    // SomeTable.field = "234" or 234 or true or nil
+    if (luaparseType.LUAPARSE_LITERALS.indexOf(valueType) !== -1) {
+      const snippet = fieldChain[fieldChain.length - 1];
+      this.tableFieldTree.addFieldValue(fieldChain, resolvedType, snippet);
+    }
+
+    // SomeTable.field = function (arg1, arg2) ...
+    if (luaparseType.LUAPARSE_FUNCTION_DECLARATION === valueType) {
+      const funcName = fieldChain[fieldChain.length - 1];
+      const funcSnippet = buildFuncSnippet(funcName, fieldValue.parameters);
+      this.tableFieldTree.addFieldValue(fieldChain, resolvedType, funcSnippet);
+    }
+
+    // SomeTable.field = identifier
+    if (luaparseType.LUAPARSE_IDENTIFIER === valueType) {
+      // TODO : resolve field tree by semantic analysis
+      this.tableFieldTree.addFieldValue(fieldChain, resolvedType, fieldChain[fieldChain.length - 1]);
+    }
+
+    // SomeTable.field = { field1 = ... }
+    if (luaparseType.LUAPARSE_TABLE_CONSTRUCTOR_EXPRESSION === valueType) {
+      this.parseTable(fieldChain, fieldValue);
+    }
   }
 
 }

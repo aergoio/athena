@@ -1,6 +1,6 @@
 import logger from 'loglevel';
 
-import {LuaAnalysisInfo} from '../model';
+import {LuaAnalysisInfo} from '../../model';
 
 import LuaParser from './parser';
 import LuaSymbolTableGenerator from './symbol-table-generator';
@@ -12,7 +12,7 @@ export default class LuaAnalysisGenerator {
     logger.debug("Generate parse result for", fileName);
     logger.debug(source);
     const luaParser = new LuaParser();
-    const symbolTableGenerator = new LuaSymbolTableGenerator(fileName);
+    const symbolTableGenerator = new LuaSymbolTableGenerator();
     const tableFieldTreeGenerator = new LuaTableFieldTreeGenerator();
     const parseResult = luaParser.parse(source, symbolTableGenerator, tableFieldTreeGenerator);
     logger.debug("Parse result", parseResult);

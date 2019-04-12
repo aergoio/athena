@@ -1,5 +1,5 @@
-import {luaTypes} from './model';
-import {LuaImportResolver} from './analyzer';
-import {LuaSuggester, LuaLinter} from './provider';
+import { LuaImportResolver, LuaAnalyzer } from './analyzer';
+import { LuaLinter } from './linter';
+import { LuaSuggester } from './suggester';
 
-export {luaTypes, LuaImportResolver, LuaSuggester, LuaLinter};
+export { LuaImportResolver, LuaAnalyzer, LuaSuggester, LuaLinter };

@@ -1,10 +1,12 @@
 import logger from 'loglevel';
 
+import { Analyzer } from '../../api';
+import { LuaAnalysisInfo } from '../../model';
+
 import LuaImportResolver from './import-resolver';
 import LuaAnalysisGenerator from './analysis-generator';
-import { LuaAnalysisInfo } from '../model';
 
-export default class LuaAnalyzer {
+export default class LuaAnalyzer implements Analyzer {
   importResolver: LuaImportResolver;
   analysisGenerator: LuaAnalysisGenerator;
 
@@ -13,7 +15,7 @@ export default class LuaAnalyzer {
     this.analysisGenerator = new LuaAnalysisGenerator();
   }
 
-  analyze(source: string, filePath: string): Promise<Array<LuaAnalysisInfo>> {
+  async analyze(source: string, filePath: string): Promise<LuaAnalysisInfo[]> {
     logger.debug("Analyze", filePath);
     logger.debug(source);
     const analysisInfos = [];
@@ -22,7 +24,7 @@ export default class LuaAnalyzer {
       analysisInfos.push(this.importResolver.getAnalysisInfosOf(importStatement, filePath));
     });
     analysisInfos.push(this.analysisGenerator.generate(source, filePath));
-    return Promise.resolve(analysisInfos);
+    return analysisInfos;
   }
 
 }

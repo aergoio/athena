@@ -4,7 +4,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "getSender()"
         }
       ]
@@ -13,7 +12,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "getBlockheight()"
         }
       ]
@@ -22,7 +20,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "getTxhash()"
         }
       ]
@@ -31,7 +28,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "getTimestamp()"
         }
       ]
@@ -40,7 +36,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "getContractID()"
         }
       ]
@@ -49,7 +44,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "setItem(${1:key}, ${2:value})"
         }
       ]
@@ -58,7 +52,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "getItem(${1:key})"
         }
       ]
@@ -67,7 +60,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "getAmount()"
         }
       ]
@@ -76,7 +68,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "getCreator()"
         }
       ]
@@ -85,7 +76,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "getOrigin()"
         }
       ]
@@ -94,7 +84,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "getPrevBlockHash()"
         }
       ]
@@ -103,7 +92,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "print(${1:args...})"
         }
       ]
@@ -114,7 +102,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "send(${1:address}, ${2:amount})"
         }
       ]
@@ -123,7 +110,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "deploy(${1:code}, ${2:args...})"
         }
       ]
@@ -132,7 +118,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "call(${1:address}, ${2:funcName}, ${3:args...})"
         }
       ]
@@ -141,7 +126,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "delegatecall(${1:address}, ${2:funcName}, ${3:args...})"
         }
       ]
@@ -150,7 +134,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "pcall(${1:fn}, ${2:args...})"
         }
       ]
@@ -159,7 +142,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "balance(${1:address})"
         }
       ]
@@ -168,7 +150,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "event(${1:eventName}, ${2:args...})"
         }
       ]
@@ -179,7 +160,6 @@
       "__possibleValues": [
         {
           "type": "table",
-          "kind": "member",
           "snippet": "var {\n  ${1:key} = ${2:value}\n}"
         }
       ]
@@ -188,7 +168,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "value()"
         }
       ]
@@ -197,7 +176,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "map()"
         }
       ]
@@ -206,7 +184,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "array(${1:size})"
         }
       ]
@@ -217,7 +194,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "exec(\"${1:statement}\")"
         }
       ]
@@ -226,7 +202,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "query(\"${1:statement}\")"
         }
       ]
@@ -235,7 +210,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "prepare(\"${1:statement}\")"
         }
       ]
@@ -246,7 +220,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "register(${1:func...})"
         }
       ]
@@ -255,7 +228,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "payable(${1:func...})"
         }
       ]
@@ -264,7 +236,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "register_view(${1:func...})"
         }
       ]
@@ -275,7 +246,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "encode(${1:arg})"
         }
       ]
@@ -284,7 +254,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "decode(${1:string})"
         }
       ]
@@ -295,7 +264,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "sha256(${1:arg})"
         }
       ]
@@ -304,7 +272,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "ecverity(${1:message}, ${2:signature}, ${3:address})"
         }
       ]
@@ -315,7 +282,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "number(${1:value})"
         }
       ]
@@ -324,7 +290,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "isneg(${1:value})"
         }
       ]
@@ -333,7 +298,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "iszero(${1:value})"
         }
       ]
@@ -342,7 +306,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "tonumber(${1:value})"
         }
       ]
@@ -351,7 +314,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "tostring(${1:value})"
         }
       ]
@@ -360,7 +322,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "neg(${1:value})"
         }
       ]
@@ -369,7 +330,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "sqrt(${1:value})"
         }
       ]
@@ -378,7 +338,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "compare(${1:value})"
         }
       ]
@@ -387,7 +346,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "add(${1:left}, ${2:right})"
         }
       ]
@@ -396,7 +354,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "sub(${1:left}, ${2:right})"
         }
       ]
@@ -405,7 +362,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "mul(${1:left}, ${2:right})"
         }
       ]
@@ -414,7 +370,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "mod(${1:target}, ${2:value})"
         }
       ]
@@ -423,7 +378,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "div(${1:target}, ${2:value})"
         }
       ]
@@ -432,7 +386,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "pow(${1:base}, ${2:exponent})"
         }
       ]
@@ -441,7 +394,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "divmod(${1:target}, ${2:value})"
         }
       ]
@@ -450,7 +402,6 @@
       "__possibleValues": [
         {
           "type": "function",
-          "kind": "member",
           "snippet": "powmod(${1:base}, ${2:exponent}, ${3:modValue})"
         }
       ]

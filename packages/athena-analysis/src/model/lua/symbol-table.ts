@@ -1,15 +1,11 @@
-import { stringify } from "querystring";
-
-export class LuaSymbolEntry {
+export class LuaSymbol {
   index: number;
   type: string;
-  kind: string;
   snippet: string;
 
-  constructor(index: number, type: string, kind: string, snippet: string) {
+  constructor(index: number, type: string, snippet: string) {
     this.index = index;
     this.type = type;
-    this.kind = kind;
     this.snippet = snippet;
   }
 
@@ -28,57 +24,51 @@ export class Range {
 
 export class LuaSymbolTable {
 
-  static empty: LuaSymbolTable = new LuaSymbolTable("", undefined);
+  public static empty: LuaSymbolTable = new LuaSymbolTable();
 
-  fileName: string;
   range: Range;
   entries: any;
   parent: LuaSymbolTable;
-  children: Array<LuaSymbolTable>;
+  children: LuaSymbolTable[];
 
-  static create(fileName: string, entries: any) {
-    return new LuaSymbolTable(fileName, entries);
-  }
-
-  constructor(fileName: string, entries?: any) {
-    this.fileName = fileName;
+  constructor(entries?: any) {
     this.range = new Range(0, Infinity);
     this.entries = typeof entries === "undefined" ? {} : entries;
     this.parent = LuaSymbolTable.empty;
     this.children = [];
   }
 
-  isRoot() {
+  public isRoot(): boolean {
     return LuaSymbolTable.empty === this.parent;
   }
 
-  getParent() {
+  public getParent(): LuaSymbolTable {
     return this.parent;
   }
 
-  isInScope(index: number) {
+  public isInScope(index: number): boolean {
     return this.range.start <= index && index <= this.range.end;
   }
 
-  setStart(start: number) {
+  public setStart(start: number): void {
     this.range.start = start;
   }
 
-  setEnd(end: number) {
+  public setEnd(end: number): void {
     this.range.end = end;
   }
 
-  addEntry(identifier: string, index: number, type: string, kind: string, snippet: string) {
+  public addEntry(identifier: string, index: number, type: string, snippet: string): void {
     if (!this.entries.hasOwnProperty(identifier)) {
-      this.entries[identifier] = new LuaSymbolEntry(index, type, kind, snippet);
+      this.entries[identifier] = new LuaSymbol(index, type, snippet);
     }
   }
 
-  setParent(parent: LuaSymbolTable) {
+  public setParent(parent: LuaSymbolTable): void {
     this.parent = parent;
   }
 
-  addChild(child: LuaSymbolTable) {
+  public addChild(child: LuaSymbolTable): void {
     this.children.push(child);
   }
 

@@ -1,4 +1,4 @@
-import {luaTypes} from '../model';
+import { luaTypes } from '../../model';
 
 // luaparse literal types
 //   - StringLiteral    "Im String"
@@ -57,31 +57,5 @@ export function resolveType(luaparseType: string) {
     return luaTypes.LUA_TYPE_TABLE_MEMBER;
   } else {
     return luaTypes.LUA_TYPE_UNKNOWN;
-  }
-}
-
-// luaparse type to domain kind
-export function resolveKind(luaparseType: string) {
-  if (null == luaparseType) {
-    return luaTypes.LUA_KIND_UNKNOWN;
-  }
-  const resolvedType = resolveType(luaparseType);
-  switch (resolvedType) {
-    case luaTypes.LUA_TYPE_STRING:
-    case luaTypes.LUA_TYPE_NUMERIC:
-    case luaTypes.LUA_TYPE_BOOLEAN:
-    case luaTypes.LUA_TYPE_NIL:
-    case luaTypes.LUA_TYPE_VARARG:
-      return luaTypes.LUA_KIND_VARIABLE;
-    case luaTypes.LUA_TYPE_FUNCTION:
-      return luaTypes.LUA_KIND_FUNCTION;
-    case luaTypes.LUA_TYPE_TABLE:
-      return luaTypes.LUA_KIND_TABLE;
-    case luaTypes.LUA_TYPE_TABLE_MEMBER:
-      return luaTypes.LUA_KIND_TABLE_MEMBER;
-    case luaTypes.LUA_TYPE_UNKNOWN:
-      return luaTypes.LUA_KIND_UNKNOWN;
-    default:
-      return luaTypes.LUA_KIND_UNKNOWN;
   }
 }

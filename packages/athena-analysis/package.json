@@ -9,8 +9,8 @@
   "scripts": {
     "type-check": "tsc --noEmit",
     "type-check:watch": "yarn run type-check -- --watch",
-    "lint": "eslint --fix ./src/**/*.ts ./test/**/*.ts",
-    "test": "nyc mocha --exit --require babel-register-ts test/**/*.ts",
+    "lint": "eslint --fix ./src/**/*.ts",
+    "test": "yarn run lint && nyc mocha --exit --require babel-register-ts $(find ./test -name '*.ts')",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "rollup -c ./scripts/rollup.config.js ",
     "build": "yarn run test && yarn run build:types && yarn run build:js",

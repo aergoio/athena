@@ -11,7 +11,7 @@ function func1 (arg1, arg2)
 
   -- v : variable1, variable2, variable3, variable4
   -- a : arg1, arg2
-  -- f : func1 (arg1, arg2)
+  -- f : func1(arg1, arg2), func3()
 
   -- if v -> v_
   -- for a -> a_
@@ -21,14 +21,14 @@ function func1 (arg1, arg2)
 end
 
 -- v : variable1, variable2, variable3
--- fun : func1 (arg1, arg2)
+-- fun : func1(arg1, arg2), func3()
 
 variable5 = { field = 3 }
 local func2 = function (arg3, arg4)
 
   -- v : variable1, variable2, variable3, variable5
   -- a : arg3, arg4
-  -- f : func1 (arg1, arg2), func2 (arg3, arg4)
+  -- f : func1(arg1, arg2), func2(arg3, arg4), func3()
 
   -- if v -> v_
   -- for a -> a_
@@ -38,13 +38,13 @@ local func2 = function (arg3, arg4)
 end
 
 -- v : variable1, variable2, variable3, variable5
--- fun : func1 (arg1, arg2), func2(arg1, arg2)
+-- fun : func1 (arg1, arg2), func2(arg1, arg2), func3()
 
 function func3 ()
 
   -- v : variable1, variable2, variable3, variable5
   -- a : ""
-  -- f : func1 (arg1, arg2), func2 (arg3, arg4), func3 ()
+  -- f : func1(arg1, arg2), func2(arg3, arg4), func3()
 
   -- if v -> v_
   -- for a -> a_
