@@ -29,7 +29,7 @@ export default {
 
     // Copy files
     copy({
-      files: ['src/lua/provider/res/*.json'],
+      files: ['src/lua/suggester/res/*.json'],
       dest: 'dist/res',
       options: {
         verbose: true,
