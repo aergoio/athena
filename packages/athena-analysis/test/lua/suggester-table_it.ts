@@ -115,7 +115,7 @@ describe("Suggestion for table", () => {
 
   });
 
-  describe("Suggestion for lower case prefix (line: 67)", () => {
+  describe("Suggestion for lower case prefix (line: 66)", () => {
 
     const index = 1379;
 
@@ -124,6 +124,19 @@ describe("Suggestion for table", () => {
       const suggestions = await luaSuggester.suggest(analysisInfos, "NestedTable.field", index);
       assert.equal(suggestions.length, 2);
       assert.equal(suggestions.filter(s => SuggestionKind.Member === s.kind).length, 2);
+    });
+
+  });
+
+  describe("Suggestion for duplicate field (line: 76)", () => {
+
+    const index = 1531;
+
+    it("DuplicateTable.field", async () => {
+      const analysisInfos = await luaAnalyzer.analyze(source, filePath);
+      const suggestions = await luaSuggester.suggest(analysisInfos, "DuplicateTable.field", index);
+      assert.equal(suggestions.length, 1);
+      assert.equal(suggestions.filter(s => SuggestionKind.Member === s.kind).length, 1);
     });
 
   });

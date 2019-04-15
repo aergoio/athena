@@ -63,5 +63,14 @@ local CamelCaseTable = {
   end
 };
 
-
 -- CamelCaseTable.field -> fiELD1, Field2
+
+
+function DuplicateTable.field(arg1)
+  return arg1
+end
+function DuplicateTable.field(arg1)
+  return arg1
+end
+
+-- DuplicateTable.fie -> DuplicateTable.field(arg1)

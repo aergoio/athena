@@ -90,15 +90,22 @@ export default class LuaSuggester implements Suggester {
       return [];
     }
 
-    let suggestions = new Set<Suggestion>();
+    let usedSet = new Set<string>();
+    let suggestions: Suggestion[] = [];
+
     const name = prefixChain[prefixChain.length - 1];
     tableFieldTrees.forEach(tableFieldTree => {
       tableFieldTree.find(prefixChain).forEach(tableField => {
-        suggestions.add(new Suggestion(name, tableField.snippet, tableField.type, SuggestionKind.Member));
+        const suggestion = new Suggestion(name, tableField.snippet, tableField.type, SuggestionKind.Member);
+        const key = JSON.stringify(suggestion);
+        if (!usedSet.has(key)) {
+          suggestions.push(suggestion);
+          usedSet.add(key);
+        }
       });
     });
 
-    return Array.from(suggestions);
+    return suggestions;
   }
 
   protected resolveKind(luaType: string): SuggestionKind {
