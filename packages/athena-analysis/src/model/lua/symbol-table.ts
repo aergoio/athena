@@ -59,9 +59,8 @@ export class LuaSymbolTable {
   }
 
   public addEntry(identifier: string, index: number, type: string, snippet: string): void {
-    if (!this.entries.hasOwnProperty(identifier)) {
-      this.entries[identifier] = new LuaSymbol(index, type, snippet);
-    }
+    // if duplication, use last one
+    this.entries[identifier] = new LuaSymbol(index, type, snippet);
   }
 
   public setParent(parent: LuaSymbolTable): void {

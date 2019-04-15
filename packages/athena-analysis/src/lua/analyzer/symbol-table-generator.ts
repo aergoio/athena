@@ -54,6 +54,7 @@ export default class LuaSymbolTableGenerator implements Visitor {
       this.symbolTable.addEntry(identifierName, index, initType, identifierName);
     }
   }
+
   protected parseStartIndex(rangeHolder: any) {
     return rangeHolder.range[0];
   }

@@ -53,8 +53,9 @@ function func3 ()
   return 3
 end
 
--- v : variable1, variable2, variable3, variable5
--- fun : func1 (arg1, arg2), func2(arg1, arg2), func3 ()
+local varIABLE6 = 3
 
+-- v : variable1, variable2, variable3, variable5, varIABLE6
+-- fun : func1(arg1, arg2), func2(arg1, arg2), func3()
 
 -- l : libraryVariable, libraryFunc, libraryTable

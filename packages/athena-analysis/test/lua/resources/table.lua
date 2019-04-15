@@ -1,4 +1,6 @@
 import "./library.lua"
+-- libraryTable. -> field1, field2
+
 
 local FieldTable = { field1 = "11", ["field2"] = "22", [33] = "33", withoutInit}
 FieldTable.field4 = "44"
@@ -54,4 +56,12 @@ NestedTable.field2["subfield4"] = "2_44"
 -- NestedTable.field2.m -> min
 
 
--- libraryTable. -> field1, field2
+local CamelCaseTable = {
+  fiELD1 = "11",
+  Field2 = function (arg1, arg2)
+    return arg1 + arg2
+  end
+};
+
+
+-- CamelCaseTable.field -> fiELD1, Field2

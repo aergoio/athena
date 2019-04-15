@@ -31,7 +31,7 @@ export default class LuaSuggester implements Suggester {
     logger.debug("Suggestions with", analyzeInfos);
     const prefixChain = prefix.split(".");
     logger.debug("Prefix chain", prefixChain);
-    let suggestions = [];
+    let suggestions: Suggestion[] = [];
     if (1 === prefixChain.length) {
       const symbolTables = analyzeInfos.map(a => a.symbolTable);
       symbolTables.unshift(this.aergoSymbolTable);
@@ -67,10 +67,11 @@ export default class LuaSuggester implements Suggester {
 
   protected findSuggestionRecursively(symbolTable: LuaSymbolTable, prefix: string, index: number): Suggestion[] {
     let suggestions: Suggestion[] = [];
+
     if (symbolTable.isInScope(index)) {
       Object.keys(symbolTable.entries).forEach((name) => {
         const entry = symbolTable.entries[name]
-        if (entry.index < index && name.indexOf(prefix) === 0) {
+        if (entry.index < index && name.toLowerCase().indexOf(prefix) === 0) {
           const kind = this.resolveKind(entry.type);
           suggestions.push(new Suggestion(name, entry.snippet, entry.type, kind));
         }
@@ -79,6 +80,7 @@ export default class LuaSuggester implements Suggester {
         suggestions = suggestions.concat(this.findSuggestionRecursively(child, prefix, index));
       });
     }
+
     return suggestions;
   }
 
@@ -88,15 +90,15 @@ export default class LuaSuggester implements Suggester {
       return [];
     }
 
-    let suggestions: Suggestion[] = [];
+    let suggestions = new Set<Suggestion>();
     const name = prefixChain[prefixChain.length - 1];
     tableFieldTrees.forEach(tableFieldTree => {
       tableFieldTree.find(prefixChain).forEach(tableField => {
-        suggestions.push(new Suggestion(name, tableField.snippet, tableField.type, SuggestionKind.Member));
+        suggestions.add(new Suggestion(name, tableField.snippet, tableField.type, SuggestionKind.Member));
       });
     });
 
-    return suggestions;
+    return Array.from(suggestions);
   }
 
   protected resolveKind(luaType: string): SuggestionKind {

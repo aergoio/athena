@@ -148,15 +148,15 @@ describe("Suggestion for plain variable, function", () => {
 
   });
 
-  describe("Suggestion in global after func3 (line: 56)", () => {
+  describe("Suggestion in global after func3 (line: 58)", () => {
 
-    const index = 1019;
+    const index = 1040;
 
     it("variable", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
       const suggestions = await luaSuggester.suggest(analysisInfos, "variable", index);
-      assert.equal(suggestions.length, 4);
-      assert.equal(suggestions.filter(s => SuggestionKind.Variable === s.kind).length, 4);
+      assert.equal(suggestions.length, 5);
+      assert.equal(suggestions.filter(s => SuggestionKind.Variable === s.kind).length, 5);
     });
 
     it("func", async () => {
@@ -168,9 +168,9 @@ describe("Suggestion for plain variable, function", () => {
 
   });
 
-  describe("Suggestion for imported one (line: 60)", () => {
+  describe("Suggestion for imported one (line: 61)", () => {
 
-    const index = 1128;
+    const index = 1157;
 
     it("library", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);

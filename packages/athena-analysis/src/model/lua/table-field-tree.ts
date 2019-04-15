@@ -56,7 +56,7 @@ export class LuaTableFieldTree {
       Object.keys(currEntry)
         .filter(field => field !== "__possibleValues")
         .forEach(field => {
-          if (field.indexOf(lastPrefix) === 0) {
+          if (field.toLowerCase().indexOf(lastPrefix) === 0) {
             const possibleFields: LuaTableField[] = currEntry[field].__possibleValues;
             if (typeof possibleFields !== "undefined") {
               possibleFields.forEach(field => ret.push(field));

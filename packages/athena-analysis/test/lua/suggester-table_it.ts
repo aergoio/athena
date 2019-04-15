@@ -14,9 +14,22 @@ describe("Suggestion for table", () => {
   const luaAnalyzer = new LuaAnalyzer();
   const luaSuggester = new LuaSuggester();
 
-  describe("Suggestion for simple field", () => {
+  describe("Suggestion for imported table field (line: 2)", () => {
 
-    const index = 250;
+    const index = 23;
+
+    it("libraryTable.", async () => {
+      const analysisInfos = await luaAnalyzer.analyze(source, filePath);
+      const suggestions = await luaSuggester.suggest(analysisInfos, "libraryTable.", index);
+      assert.equal(suggestions.length, 2);
+      assert.equal(suggestions.filter(s => SuggestionKind.Member === s.kind).length, 2);
+    });
+
+  });
+
+  describe("Suggestion for simple field (line: 15)", () => {
+
+    const index = 286;
 
     it("FieldTable.", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
@@ -41,9 +54,9 @@ describe("Suggestion for table", () => {
 
   });
 
-  describe("Suggestion for function field", () => {
+  describe("Suggestion for function field (line: 36)", () => {
 
-    const index = 733;
+    const index = 769;
 
     it("FuncTable.", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
@@ -75,9 +88,9 @@ describe("Suggestion for table", () => {
 
   });
 
-  describe("Suggestion for nested field", () => {
+  describe("Suggestion for nested field (line: 54)", () => {
 
-    const index = 1093;
+    const index = 1129;
 
     it("NestedTable.", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
@@ -102,13 +115,13 @@ describe("Suggestion for table", () => {
 
   });
 
-  describe("Suggestion for imported table field", () => {
+  describe("Suggestion for lower case prefix (line: 67)", () => {
 
-    const index = 1093;
+    const index = 1379;
 
-    it("libraryTable.", async () => {
+    it("CamelCaseTable.field", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
-      const suggestions = await luaSuggester.suggest(analysisInfos, "libraryTable.", index);
+      const suggestions = await luaSuggester.suggest(analysisInfos, "NestedTable.field", index);
       assert.equal(suggestions.length, 2);
       assert.equal(suggestions.filter(s => SuggestionKind.Member === s.kind).length, 2);
     });
