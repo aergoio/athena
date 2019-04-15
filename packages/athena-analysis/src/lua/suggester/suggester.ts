@@ -6,20 +6,26 @@ import { Suggestion, SuggestionKind, LuaSymbolTable, LuaTableFieldTree, luaTypes
 
 const AERGO_SYMBOLS = 'aergo-symbols.json';
 const AERGO_TABLE_TREE = 'aergo-table-tree.json';
+const LUA_SNIPPETS = 'lua-snippets.json';
 
 export default class LuaSuggester implements Suggester {
 
   protected analyzer: LuaAnalyzer;
   protected aergoSymbolTable: LuaSymbolTable;
   protected aergoTableFieldTree: LuaTableFieldTree;
+  protected luaSnippets: Suggestion[];
 
   public constructor() {
     this.analyzer = new LuaAnalyzer();
 
     const aergoSymbols = require(__dirname + '/res/' + AERGO_SYMBOLS);
-    const aergoTableTree = require(__dirname + '/res/' + AERGO_TABLE_TREE);
     this.aergoSymbolTable = new LuaSymbolTable(aergoSymbols);
+
+    const aergoTableTree = require(__dirname + '/res/' + AERGO_TABLE_TREE);
     this.aergoTableFieldTree = new LuaTableFieldTree(aergoTableTree);
+
+    const luaSnippets: any[] = require(__dirname + '/res/' + LUA_SNIPPETS);
+    this.luaSnippets = luaSnippets.map(s => new Suggestion(s.prefix, s.snippet, "snippet", SuggestionKind.Snippet));
   }
 
   public async suggest(analysis: any, prefix: string, index: number): Promise<Suggestion[]> {
@@ -48,6 +54,8 @@ export default class LuaSuggester implements Suggester {
     logger.debug("Visit table with index", index);
     logger.debug(symbolTables);
     let suggestions: Suggestion[] = [];
+
+    // search for symbol tables
     symbolTables.forEach((symbolTable, i) => {
       if (i === (symbolTables.length - 1)) {
         const subSuggestions = this.findSuggestionRecursively(symbolTable, prefix, index);
@@ -55,13 +63,21 @@ export default class LuaSuggester implements Suggester {
       } else {
         Object.keys(symbolTable.entries).forEach((name) => {
           const entry = symbolTable.entries[name]
-          if (name.indexOf(prefix) === 0) {
+          if (name.toLowerCase().indexOf(prefix) === 0) {
             const kind = this.resolveKind(entry.type);
             suggestions.push(new Suggestion(name, entry.snippet, entry.type, kind));
           }
         });
       }
     });
+
+    // search for lua snippets
+    this.luaSnippets.forEach(snippet => {
+      if (snippet.prefix.indexOf(prefix) === 0) {
+        suggestions.push(snippet);
+      }
+    });
+
     return suggestions;
   }
 

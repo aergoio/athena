@@ -1,5 +1,6 @@
 export enum SuggestionKind {
   Unknown,
+  Snippet,
   Variable,
   Function,
   Table,
@@ -8,13 +9,13 @@ export enum SuggestionKind {
 }
 
 export class Suggestion {
-  name: string;
+  prefix: string;
   snippet: string;
   type: string;
   kind: SuggestionKind;
 
-  constructor(name: string, snippet: string, type: string, kind: SuggestionKind) {
-    this.name = name;
+  constructor(prefix: string, snippet: string, type: string, kind: SuggestionKind) {
+    this.prefix = prefix;
     this.snippet = snippet;
     this.type = type;
     this.kind = kind;

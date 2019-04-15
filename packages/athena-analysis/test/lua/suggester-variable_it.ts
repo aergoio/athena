@@ -29,7 +29,7 @@ describe("Suggestion for plain variable, function", () => {
 
   describe("Suggestion in named function with argument (line: 15)", () => {
 
-    const index = 172;
+    const index = 176;
 
     it("variable", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
@@ -45,9 +45,9 @@ describe("Suggestion for plain variable, function", () => {
       assert.equal(suggestions.filter(s => SuggestionKind.Variable === s.kind).length, 2);
     });
 
-    it("func", async () => {
+    it("some", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
-      const suggestions = await luaSuggester.suggest(analysisInfos, "func", index);
+      const suggestions = await luaSuggester.suggest(analysisInfos, "some", index);
       assert.equal(suggestions.length, 2);
       assert.equal(suggestions.filter(s => SuggestionKind.Function === s.kind).length, 2);
     });
@@ -56,7 +56,7 @@ describe("Suggestion for plain variable, function", () => {
 
   describe("Suggestion in global after func1 (line: 23)", () => {
 
-    const index = 358;
+    const index = 377;
 
     it("variable", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
@@ -65,9 +65,9 @@ describe("Suggestion for plain variable, function", () => {
       assert.equal(suggestions.filter(s => SuggestionKind.Variable === s.kind).length, 3);
     });
 
-    it("func", async () => {
+    it("some", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
-      const suggestions = await luaSuggester.suggest(analysisInfos, "func", index);
+      const suggestions = await luaSuggester.suggest(analysisInfos, "some", index);
       assert.equal(suggestions.length, 2);
       assert.equal(suggestions.filter(s => SuggestionKind.Function === s.kind).length, 2);
     });
@@ -76,7 +76,7 @@ describe("Suggestion for plain variable, function", () => {
 
   describe("Suggestion in assigned anonymous function (line: 29)", () => {
 
-    const index = 499;
+    const index = 535;
 
     it("variable", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
@@ -92,9 +92,9 @@ describe("Suggestion for plain variable, function", () => {
       assert.equal(suggestions.filter(s => SuggestionKind.Variable === s.kind).length, 2);
     });
 
-    it("func", async () => {
+    it("some", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
-      const suggestions = await luaSuggester.suggest(analysisInfos, "func", index);
+      const suggestions = await luaSuggester.suggest(analysisInfos, "some", index);
       assert.equal(suggestions.length, 3);
       assert.equal(suggestions.filter(s => SuggestionKind.Function === s.kind).length, 3);
     });
@@ -103,7 +103,7 @@ describe("Suggestion for plain variable, function", () => {
 
   describe("Suggestion in global after func2 (line: 40)", () => {
 
-    const index = 704;
+    const index = 759;
 
     it("variable", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
@@ -112,9 +112,9 @@ describe("Suggestion for plain variable, function", () => {
       assert.equal(suggestions.filter(s => SuggestionKind.Variable === s.kind).length, 4);
     });
 
-    it("func", async () => {
+    it("some", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
-      const suggestions = await luaSuggester.suggest(analysisInfos, "func", index);
+      const suggestions = await luaSuggester.suggest(analysisInfos, "some", index);
       assert.equal(suggestions.length, 3);
       assert.equal(suggestions.filter(s => SuggestionKind.Function === s.kind).length, 3);
     });
@@ -123,7 +123,7 @@ describe("Suggestion for plain variable, function", () => {
 
   describe("Suggestion in named function without argument (line: 45)", () => {
 
-    const index = 832;
+    const index = 908;
 
     it("variable", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
@@ -139,9 +139,9 @@ describe("Suggestion for plain variable, function", () => {
       assert.equal(suggestions.filter(s => SuggestionKind.Variable === s.kind).length, 0);
     });
 
-    it("func", async () => {
+    it("some", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
-      const suggestions = await luaSuggester.suggest(analysisInfos, "func", index);
+      const suggestions = await luaSuggester.suggest(analysisInfos, "some", index);
       assert.equal(suggestions.length, 3);
       assert.equal(suggestions.filter(s => SuggestionKind.Function === s.kind).length, 3);
     });
@@ -150,7 +150,7 @@ describe("Suggestion for plain variable, function", () => {
 
   describe("Suggestion in global after func3 (line: 58)", () => {
 
-    const index = 1040;
+    const index = 1135;
 
     it("variable", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
@@ -159,9 +159,9 @@ describe("Suggestion for plain variable, function", () => {
       assert.equal(suggestions.filter(s => SuggestionKind.Variable === s.kind).length, 5);
     });
 
-    it("func", async () => {
+    it("some", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);
-      const suggestions = await luaSuggester.suggest(analysisInfos, "func", index);
+      const suggestions = await luaSuggester.suggest(analysisInfos, "some", index);
       assert.equal(suggestions.length, 3);
       assert.equal(suggestions.filter(s => SuggestionKind.Function === s.kind).length, 3);
     });
@@ -170,7 +170,7 @@ describe("Suggestion for plain variable, function", () => {
 
   describe("Suggestion for imported one (line: 61)", () => {
 
-    const index = 1157;
+    const index = 1269;
 
     it("library", async () => {
       const analysisInfos = await luaAnalyzer.analyze(source, filePath);

@@ -1,0 +1,26 @@
+[
+  {
+    "prefix": "local",
+    "snippet": "local ${1:variable} = ${2:init}"
+  },
+  {
+    "prefix": "function",
+    "snippet": "function ${1:name}(${2:args})\n\t${0:-- body...}\nend"
+  },
+  {
+    "prefix": "while",
+    "snippet": "while ${1:condition} do\n\t${0:-- body...}\nend"
+  },
+  {
+    "prefix": "forpairs",
+    "snippet": "for ${1:key},${2:value} in pairs(${3:table_name}) do\n\t${0:-- body...}\nend"
+  },
+  {
+    "prefix": "if",
+    "snippet": "if ${1:value} then\n\t${0:--body...}\nend"
+  },
+  {
+    "prefix": "ifelse",
+    "snippet": "if ${1:value} then\n\t${0:--body...}\nelse\n\t${1:--body...}\nend"
+  }
+]

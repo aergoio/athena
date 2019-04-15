@@ -6,12 +6,12 @@ local variable3
 
 -- v : variable1, variable2, variable3
 
-function func1 (arg1, arg2)
+function someFunc1 (arg1, arg2)
   local variable4 = nil
 
   -- v : variable1, variable2, variable3, variable4
   -- a : arg1, arg2
-  -- f : func1(arg1, arg2), func3()
+  -- someFunc : someFunc1(arg1, arg2), someFunc3()
 
   -- if v -> v_
   -- for a -> a_
@@ -21,14 +21,14 @@ function func1 (arg1, arg2)
 end
 
 -- v : variable1, variable2, variable3
--- fun : func1(arg1, arg2), func3()
+-- someFunc : someFunc1(arg1, arg2), someFunc3()
 
 variable5 = { field = 3 }
-local func2 = function (arg3, arg4)
+local someFunc2 = function (arg3, arg4)
 
   -- v : variable1, variable2, variable3, variable5
   -- a : arg3, arg4
-  -- f : func1(arg1, arg2), func2(arg3, arg4), func3()
+  -- someFunc : someFunc1(arg1, arg2), someFunc2(arg3, arg4), someFunc3()
 
   -- if v -> v_
   -- for a -> a_
@@ -38,13 +38,13 @@ local func2 = function (arg3, arg4)
 end
 
 -- v : variable1, variable2, variable3, variable5
--- fun : func1 (arg1, arg2), func2(arg1, arg2), func3()
+-- someFunc : someFunc1 (arg1, arg2), someFunc2(arg1, arg2), someFunc3()
 
-function func3 ()
+function someFunc3 ()
 
   -- v : variable1, variable2, variable3, variable5
   -- a : ""
-  -- f : func1(arg1, arg2), func2(arg3, arg4), func3()
+  -- someFunc : someFunc1(arg1, arg2), someFunc2(arg3, arg4), someFunc3()
 
   -- if v -> v_
   -- for a -> a_
@@ -56,6 +56,6 @@ end
 local varIABLE6 = 3
 
 -- v : variable1, variable2, variable3, variable5, varIABLE6
--- fun : func1(arg1, arg2), func2(arg1, arg2), func3()
+-- someFunc : someFunc1(arg1, arg2), someFunc2(arg1, arg2), someFunc3()
 
 -- l : libraryVariable, libraryFunc, libraryTable
