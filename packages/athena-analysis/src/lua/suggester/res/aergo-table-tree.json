@@ -111,6 +111,10 @@
         {
           "type": "function",
           "snippet": "deploy(${1:code}, ${2:args...})"
+        },
+        {
+          "type": "function",
+          "snippet": "deploy.value(${1:amount})(${2:code}, ${3:args...})"
         }
       ]
     },
@@ -119,6 +123,10 @@
         {
           "type": "function",
           "snippet": "call(${1:address}, ${2:funcName}, ${3:args...})"
+        },
+        {
+          "type": "function",
+          "snippet": "call.value(${1:amount})(${2:address}, ${3:funcName}, ${4:args...})"
         }
       ]
     },
@@ -134,7 +142,7 @@
       "__possibleValues": [
         {
           "type": "function",
-          "snippet": "pcall(${1:fn}, ${2:args...})"
+          "snippet": "pcall(${1:func}, ${2:args...})"
         }
       ]
     },
@@ -151,6 +159,30 @@
         {
           "type": "function",
           "snippet": "event(${1:eventName}, ${2:args...})"
+        }
+      ]
+    },
+    "stake": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "stake(${1:amount})"
+        }
+      ]
+    },
+    "unstake": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "unstake(${1:amount})"
+        }
+      ]
+    },
+    "vote": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "vote(${1:targets...})"
         }
       ]
     }
@@ -246,7 +278,7 @@
       "__possibleValues": [
         {
           "type": "function",
-          "snippet": "encode(${1:arg})"
+          "snippet": "encode(${1:rawValue})"
         }
       ]
     },
@@ -254,7 +286,7 @@
       "__possibleValues": [
         {
           "type": "function",
-          "snippet": "decode(${1:string})"
+          "snippet": "decode(${1:encoded})"
         }
       ]
     }
@@ -264,7 +296,7 @@
       "__possibleValues": [
         {
           "type": "function",
-          "snippet": "sha256(${1:arg})"
+          "snippet": "sha256(${1:value})"
         }
       ]
     },
@@ -338,7 +370,7 @@
       "__possibleValues": [
         {
           "type": "function",
-          "snippet": "compare(${1:value})"
+          "snippet": "compare(${1:left}, ${2:right})"
         }
       ]
     },
