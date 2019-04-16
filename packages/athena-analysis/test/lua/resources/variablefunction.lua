@@ -1,10 +1,14 @@
 import "./library.lua"
 
+-- l : libraryVariable, libraryFunc, libraryTable
+
+
 variable1 = 1
 local variable2 = "2"
 local variable3
 
 -- v : variable1, variable2, variable3
+
 
 function someFunc1 (arg1, arg2)
   local variable4 = nil
@@ -13,15 +17,12 @@ function someFunc1 (arg1, arg2)
   -- a : arg1, arg2
   -- someFunc : someFunc1(arg1, arg2), someFunc3()
 
-  -- if v -> v_
-  -- for a -> a_
-  -- while f -> f_
-
   return arg1 + arg2
 end
 
 -- v : variable1, variable2, variable3
 -- someFunc : someFunc1(arg1, arg2), someFunc3()
+
 
 variable5 = { field = 3 }
 local someFunc2 = function (arg3, arg4)
@@ -30,15 +31,12 @@ local someFunc2 = function (arg3, arg4)
   -- a : arg3, arg4
   -- someFunc : someFunc1(arg1, arg2), someFunc2(arg3, arg4), someFunc3()
 
-  -- if v -> v_
-  -- for a -> a_
-  -- while f -> f_
-
   return arg1 + arg2
 end
 
 -- v : variable1, variable2, variable3, variable5
 -- someFunc : someFunc1 (arg1, arg2), someFunc2(arg1, arg2), someFunc3()
+
 
 function someFunc3 ()
 
@@ -46,16 +44,15 @@ function someFunc3 ()
   -- a : ""
   -- someFunc : someFunc1(arg1, arg2), someFunc2(arg3, arg4), someFunc3()
 
-  -- if v -> v_
-  -- for a -> a_
-  -- while f -> f_
-
   return 3
 end
 
-local varIABLE6 = 3
-
--- v : variable1, variable2, variable3, variable5, varIABLE6
+-- v : variable1, variable2, variable3, variable5
 -- someFunc : someFunc1(arg1, arg2), someFunc2(arg1, arg2), someFunc3()
 
--- l : libraryVariable, libraryFunc, libraryTable
+
+local MiXeDVAriable  = 3
+
+-- mix: MiXeDVAriable
+-- mIx: MiXeDVAriable
+-- MIX: MiXeDVAriable

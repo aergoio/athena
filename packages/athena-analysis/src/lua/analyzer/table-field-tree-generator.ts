@@ -3,7 +3,7 @@ import logger from 'loglevel';
 import { LuaTableFieldTree, luaTypes } from '../../model';
 
 import Visitor from './visitor';
-import { buildFuncSnippet } from './utils';
+import { buildFuncSnippet } from '../../utils';
 import * as luaparseType from './luaparse-types';
 
 export default class LuaTableFieldTreeGenerator implements Visitor {
@@ -45,7 +45,8 @@ export default class LuaTableFieldTreeGenerator implements Visitor {
 
     const fieldChain = this.parseFieldChain(signature.identifier);
     const lastField = fieldChain[fieldChain.length - 1];
-    const funcSnippet = buildFuncSnippet(lastField, signature.parameters);
+    const parameters: any[] = signature.parameters;
+    const funcSnippet = buildFuncSnippet(lastField, parameters.map(p => p.name));
     this.tableFieldTree.addFieldValue(fieldChain, luaTypes.LUA_TYPE_FUNCTION, funcSnippet);
   }
 
@@ -151,7 +152,8 @@ export default class LuaTableFieldTreeGenerator implements Visitor {
     // SomeTable.field = function (arg1, arg2) ...
     if (luaparseType.LUAPARSE_FUNCTION_DECLARATION === valueType) {
       const funcName = fieldChain[fieldChain.length - 1];
-      const funcSnippet = buildFuncSnippet(funcName, fieldValue.parameters);
+      const parameters: any[] = fieldValue.parameters;
+      const funcSnippet = buildFuncSnippet(funcName, parameters.map(p => p.name));
       this.tableFieldTree.addFieldValue(fieldChain, resolvedType, funcSnippet);
     }
 

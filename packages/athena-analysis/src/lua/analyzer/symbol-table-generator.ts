@@ -3,7 +3,7 @@ import logger from 'loglevel';
 import { LuaSymbolTable, luaTypes } from '../../model';
 
 import Visitor from './visitor';
-import { buildFuncSnippet } from './utils';
+import { buildFuncSnippet } from '../../utils';
 import * as luaparseType from './luaparse-types';
 
 export default class LuaSymbolTableGenerator implements Visitor {
@@ -45,8 +45,8 @@ export default class LuaSymbolTableGenerator implements Visitor {
       : luaparseType.resolveType(node.init[0].type);
     // variable = function (arg1, arg2) ...
     if (luaTypes.LUA_TYPE_FUNCTION === initType) {
-      const parameters = node.init[0].parameters;
-      const snippet = buildFuncSnippet(identifierName, parameters);
+      const parameters: any[] = node.init[0].parameters;
+      const snippet = buildFuncSnippet(identifierName, parameters.map(p => p.name));
       this.symbolTable.addEntry(identifierName, index, initType, snippet);
     }
     // variable = "some_value"
@@ -94,7 +94,7 @@ export default class LuaSymbolTableGenerator implements Visitor {
     // function should be accessable in other function (index = 0)
     // it's not an normal lua behavior. just an aergo smart contract behavior
     const type = luaTypes.LUA_TYPE_FUNCTION;
-    const snippet = buildFuncSnippet(name, parameters);
+    const snippet = buildFuncSnippet(name, parameters.map(p => p.name));
     symbolTable.addEntry(name, 0, type, snippet);
   }
 

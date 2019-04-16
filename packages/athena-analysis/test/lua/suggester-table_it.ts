@@ -141,4 +141,31 @@ describe("Suggestion for table", () => {
 
   });
 
+  describe("Suggestion for duplicate field (line: 83)", () => {
+
+    const index = 1640;
+
+    it("MixedCaseTable.fie", async () => {
+      const analysisInfos = await luaAnalyzer.analyze(source, filePath);
+      const suggestions = await luaSuggester.suggest(analysisInfos, "MixedCaseTable.fie", index);
+      assert.equal(suggestions.length, 1);
+      assert.equal(suggestions.filter(s => SuggestionKind.Member === s.kind).length, 1);
+    });
+
+    it("MixedCaseTable.fIe", async () => {
+      const analysisInfos = await luaAnalyzer.analyze(source, filePath);
+      const suggestions = await luaSuggester.suggest(analysisInfos, "MixedCaseTable.fIe", index);
+      assert.equal(suggestions.length, 1);
+      assert.equal(suggestions.filter(s => SuggestionKind.Member === s.kind).length, 1);
+    });
+
+    it("MixedCaseTable.FIE", async () => {
+      const analysisInfos = await luaAnalyzer.analyze(source, filePath);
+      const suggestions = await luaSuggester.suggest(analysisInfos, "MixedCaseTable.FIE", index);
+      assert.equal(suggestions.length, 1);
+      assert.equal(suggestions.filter(s => SuggestionKind.Member === s.kind).length, 1);
+    });
+
+  });
+
 });

@@ -3,6 +3,7 @@ import logger from 'loglevel';
 import { Suggester } from '../../api';
 import { LuaAnalyzer } from '../analyzer';
 import { Suggestion, SuggestionKind, LuaSymbolTable, LuaTableFieldTree, luaTypes, LuaAnalysisInfo } from '../../model';
+import { contains } from '../../utils';
 
 const AERGO_SYMBOLS = 'aergo-symbols.json';
 const AERGO_TABLE_TREE = 'aergo-table-tree.json';
@@ -37,6 +38,7 @@ export default class LuaSuggester implements Suggester {
     logger.debug("Suggestions with", analyzeInfos);
     const prefixChain = prefix.split(".");
     logger.debug("Prefix chain", prefixChain);
+
     let suggestions: Suggestion[] = [];
     if (1 === prefixChain.length) {
       const symbolTables = analyzeInfos.map(a => a.symbolTable);
@@ -47,6 +49,7 @@ export default class LuaSuggester implements Suggester {
       tableFieldTrees.unshift(this.aergoTableFieldTree);
       suggestions = this.findSuggestionFromTableFields(tableFieldTrees, prefixChain);
     }
+
     return suggestions;
   }
 
@@ -63,7 +66,7 @@ export default class LuaSuggester implements Suggester {
       } else {
         Object.keys(symbolTable.entries).forEach((name) => {
           const entry = symbolTable.entries[name]
-          if (name.toLowerCase().indexOf(prefix) === 0) {
+          if (contains(name, prefix)) {
             const kind = this.resolveKind(entry.type);
             suggestions.push(new Suggestion(name, entry.snippet, entry.type, kind));
           }
@@ -87,7 +90,7 @@ export default class LuaSuggester implements Suggester {
     if (symbolTable.isInScope(index)) {
       Object.keys(symbolTable.entries).forEach((name) => {
         const entry = symbolTable.entries[name]
-        if (entry.index < index && name.toLowerCase().indexOf(prefix) === 0) {
+        if (entry.index < index && contains(name, prefix)) {
           const kind = this.resolveKind(entry.type);
           suggestions.push(new Suggestion(name, entry.snippet, entry.type, kind));
         }

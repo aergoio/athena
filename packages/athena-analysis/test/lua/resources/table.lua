@@ -74,3 +74,12 @@ function DuplicateTable.field(arg1)
 end
 
 -- DuplicateTable.fie -> DuplicateTable.field(arg1)
+
+
+function MixedCaseTable.FiElD(arg1)
+  return arg1
+end
+
+-- MixedCaseTable.fie -> MixedCaseTable.FiElD(arg1)
+-- MixedCaseTable.fIe -> MixedCaseTable.FiElD(arg1)
+-- MixedCaseTable.FIE -> MixedCaseTable.FiElD(arg1)

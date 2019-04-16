@@ -1,4 +1,5 @@
 import * as luaTypes from './lua-types';
+import { contains } from '../../utils';
 
 export class LuaTableField {
   type: string;
@@ -56,7 +57,7 @@ export class LuaTableFieldTree {
       Object.keys(currEntry)
         .filter(field => field !== "__possibleValues")
         .forEach(field => {
-          if (field.toLowerCase().indexOf(lastPrefix) === 0) {
+          if (contains(field, lastPrefix)) {
             const possibleFields: LuaTableField[] = currEntry[field].__possibleValues;
             if (typeof possibleFields !== "undefined") {
               possibleFields.forEach(field => ret.push(field));
