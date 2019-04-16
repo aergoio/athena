@@ -76,7 +76,7 @@ export default class LuaSuggester implements Suggester {
 
     // search for lua snippets
     this.luaSnippets.forEach(snippet => {
-      if (snippet.prefix.indexOf(prefix) === 0) {
+      if (contains(snippet.prefix, prefix)) {
         suggestions.push(snippet);
       }
     });
