@@ -1,8 +1,12 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
+import json from 'rollup-plugin-json';
+import builtins from 'rollup-plugin-node-builtins';
+import globals from 'rollup-plugin-node-globals';
 import resolve from 'rollup-plugin-node-resolve';
-import copy from 'rollup-plugin-cpy';
 import pkg from '../package.json';
+
+import copy from 'rollup-plugin-cpy';
 
 const extensions = [
   '.js', '.jsx', '.ts', '.tsx',
@@ -18,14 +22,23 @@ export default {
   external: [],
 
   plugins: [
-    // Allows node_modules resolution
-    resolve({ extensions }),
-
     // Allow bundling cjs modules. Rollup doesn't understand cjs
     commonjs(),
 
+    // Allows node_modules resolution
+    resolve({ extensions }),
+
+    // Convert .json files to ES6 modules
+    json(),
+
     // Compile TypeScript/JavaScript files
     babel({ extensions, include: ['src/**/*'] }),
+
+    // Insert node globals to be required/imported
+    globals(),
+
+    // Allows the node builtins to be required/imported
+    builtins(),
 
     // Copy files
     copy({
