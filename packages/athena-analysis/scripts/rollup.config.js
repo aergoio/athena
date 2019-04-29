@@ -6,7 +6,11 @@ import globals from 'rollup-plugin-node-globals';
 import resolve from 'rollup-plugin-node-resolve';
 import pkg from '../package.json';
 
-import copy from 'rollup-plugin-cpy';
+const externals = [
+  'fs',
+  'os',
+  'path'
+];
 
 const extensions = [
   '.js', '.jsx', '.ts', '.tsx',
@@ -19,7 +23,7 @@ export default {
 
   // Specify here external modules which you don't want to include in your bundle (for instance: 'lodash', 'moment' etc.)
   // https://rollupjs.org/guide/en#external-e-external
-  external: [],
+  external: externals,
 
   plugins: [
     // Allow bundling cjs modules. Rollup doesn't understand cjs
@@ -39,15 +43,6 @@ export default {
 
     // Allows the node builtins to be required/imported
     builtins(),
-
-    // Copy files
-    copy({
-      files: ['src/lua/suggester/res/*.json'],
-      dest: 'dist/res',
-      options: {
-        verbose: true,
-      }
-    })
   ],
 
   output: [{

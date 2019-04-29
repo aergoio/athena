@@ -1,6 +1,6 @@
 [
   {
-    "prefix": "--",
+    "prefix": "--[[",
     "snippet": "--[[ ${1:comment...} ]]"
   },
   {
