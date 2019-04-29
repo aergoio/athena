@@ -33,9 +33,7 @@
     "url": "https://github.com/aergoio/athena/issues"
   },
   "homepage": "https://github.com/aergoio/athena#readme",
-  "devDependencies": {
-    "rollup-plugin-cpy": "^1.1.0"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@aergoio/luaparse": "aergoio/luaparse#master"
   }

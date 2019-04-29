@@ -5,9 +5,9 @@ import { LuaAnalyzer } from '../analyzer';
 import { Suggestion, SuggestionKind, LuaSymbolTable, LuaTableFieldTree, luaTypes, LuaAnalysisInfo } from '../../model';
 import { contains } from '../../utils';
 
-const AERGO_SYMBOLS = 'aergo-symbols.json';
-const AERGO_TABLE_TREE = 'aergo-table-tree.json';
-const LUA_SNIPPETS = 'lua-snippets.json';
+import aergoSymbols from './res/aergo-symbols.json';
+import aergoTableTree from './res/aergo-table-tree.json';
+import luaSnippets from './res/lua-snippets.json';
 
 export default class LuaSuggester implements Suggester {
 
@@ -19,13 +19,8 @@ export default class LuaSuggester implements Suggester {
   public constructor() {
     this.analyzer = new LuaAnalyzer();
 
-    const aergoSymbols = require(__dirname + '/res/' + AERGO_SYMBOLS);
     this.aergoSymbolTable = new LuaSymbolTable(aergoSymbols);
-
-    const aergoTableTree = require(__dirname + '/res/' + AERGO_TABLE_TREE);
     this.aergoTableFieldTree = new LuaTableFieldTree(aergoTableTree);
-
-    const luaSnippets: any[] = require(__dirname + '/res/' + LUA_SNIPPETS);
     this.luaSnippets = luaSnippets.map(s => new Suggestion(s.prefix, s.snippet, "snippet", SuggestionKind.Snippet));
   }
 
