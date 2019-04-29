@@ -2,5 +2,9 @@
   "presets": [
     ["@babel/env", {"exclude": ["transform-regenerator"]}],
     "@babel/typescript"
+  ],
+  "plugins": [
+    "transform-class-properties",
+    "inline-json-import"
   ]
 }
