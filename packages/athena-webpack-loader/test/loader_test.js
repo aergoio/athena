@@ -1,11 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
 const assert = chai.assert;
-
-const webpackConfig = require('./webpack.config');
 
 function requireFromString(src, filename) {
   const Module = module.constructor;
@@ -17,7 +13,14 @@ function requireFromString(src, filename) {
 describe('webpack loader', () => {
   it('should load a contract file', (done) => {
     webpack({
-      ...webpackConfig,
+      module: {
+        rules: [
+          {
+            test: /\.lua/,
+            use: ['@aergo/athena-webpack-loader']
+          }
+        ]
+      },
       entry: path.resolve(__dirname, 'contract.lua'),
     }, (err, stats) => {
       if (err) {
