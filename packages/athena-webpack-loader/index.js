@@ -1,4 +1,4 @@
-const { CompilerFactory, CompilerType } = require('@aergoio/athena-compiler');
+const { CompilerFactory, CompilerType } = require('@aergo/athena-compiler');
 
 module.exports = async function athenaLoader(source) {
   const loaderContext = this;

@@ -34,6 +34,6 @@ describe('webpack loader', () => {
       assert.equal(mod.abi.language, 'lua');
       assert.equal(mod.abi.functions[0].name, 'getContractCreator');
       done();
-      });
+    });
   }).timeout(5000);
 });
