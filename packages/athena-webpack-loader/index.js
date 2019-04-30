@@ -1,9 +1,6 @@
 const { CompilerFactory, CompilerType } = require('@aergoio/athena-compiler');
 
 module.exports = async function athenaLoader(source) {
-  if (this.cacheable) {
-    this.cacheable();
-  }
   const loaderContext = this;
   const filePath = loaderContext.resource;
   const luaCompiler = new CompilerFactory().create(CompilerType.Lua);
