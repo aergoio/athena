@@ -1,5 +1,8 @@
 # athena-compiler
 
+[![npm](https://img.shields.io/npm/v/@aergo/athena-compiler.svg)](https://www.npmjs.com/package/@aergo/athena-compiler)
+[![npm](https://img.shields.io/npm/dm/@aergo/athena-compiler.svg)](https://www.npmjs.com/package/@aergo/athena-compiler)
+
 Provides compiler for [aergo smart contract](https://docs.aergo.io/en/latest/smart-contracts/index.html)
 
 * [lua](https://docs.aergo.io/en/latest/smart-contracts/lua/index.html)
