@@ -5,7 +5,13 @@
   "main": "index.js",
   "author": "Aergo team and contributors",
   "license": "MIT",
+  "scripts": {
+    "test": "nyc mocha --exit test/**/*.js"
+  },
   "dependencies": {
     "@aergoio/athena-compiler": "file:../athena-compiler"
+  },
+  "devDependencies": {
+    "webpack": "^4.30.0"
   }
 }
