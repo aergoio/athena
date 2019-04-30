@@ -1,0 +1,17 @@
+{
+  "name": "@aergo/athena-webpack-loader",
+  "version": "0.1.0",
+  "description": "Webpack Loader to compile Aergo smart contracts",
+  "main": "index.js",
+  "author": "Aergo team and contributors",
+  "license": "MIT",
+  "scripts": {
+    "test": "nyc mocha --exit test/**/*.js"
+  },
+  "dependencies": {
+    "@aergo/athena-compiler": "file:../athena-compiler"
+  },
+  "devDependencies": {
+    "webpack": "^4.30.0"
+  }
+}
