@@ -9,7 +9,7 @@
     "test": "nyc mocha --exit test/**/*.js"
   },
   "dependencies": {
-    "@aergo/athena-compiler": "file:../athena-compiler"
+    "@aergo/athena-compiler": "^0.1.0"
   },
   "devDependencies": {
     "webpack": "^4.30.0"
