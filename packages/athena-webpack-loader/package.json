@@ -1,6 +1,6 @@
 {
   "name": "@aergo/athena-webpack-loader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Webpack Loader to compile Aergo smart contracts",
   "main": "index.js",
   "author": "Aergo team and contributors",
