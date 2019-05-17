@@ -14,21 +14,21 @@ export default class LuaDependencyResolver {
    *
    * @returns {Promise<string>} a dependency resolved lua source
    */
-  public async resolveDependency(source: string, absolutePath: string): Promise<string> {
+  async resolveDependency(source: string, absolutePath: string): Promise<string> {
     return this.resolveImport(source, absolutePath)
       .map(f => this.readFile(f))
       .map(s => this.getImportTrimmed(s))
       .join("\n");
   }
 
-  protected resolveImport(source: string, absolutePath: string): Array<string> {
+  protected resolveImport(source: string, absolutePath: string): string[] {
     return [
       ...this.extractImportStatement(source).map(i => this.resolveImportTargetPath(i, absolutePath)),
       absolutePath
     ];
   };
 
-  protected extractImportStatement(source: string): Array<string> {
+  protected extractImportStatement(source: string): string[] {
     const importStatements = [];
     let startIndex = 0;
     while (startIndex < source.length) {

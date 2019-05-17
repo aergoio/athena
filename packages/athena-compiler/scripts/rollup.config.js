@@ -8,15 +8,17 @@ import pkg from '../package.json';
 
 import copy from 'rollup-plugin-cpy';
 
-const externals = [
+const extensions = [
+  '.js', '.jsx', '.ts', '.tsx',
+];
+
+const nodeExternals = [
   'fs',
   'os',
   'child_process',
 ];
 
-const extensions = [
-  '.js', '.jsx', '.ts', '.tsx',
-];
+const externals = Object.keys(pkg.dependencies).concat(...nodeExternals);
 
 const name = 'AthenaCompiler';
 

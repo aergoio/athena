@@ -35,5 +35,6 @@ ascl
 ## Usage
 
 * Install dependenty : `yarn install`
+* Lint : `yarn run lint`
 * Test : `yarn run test`
 * Build : `yarn run build`

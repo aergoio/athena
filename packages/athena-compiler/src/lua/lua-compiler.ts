@@ -17,9 +17,9 @@ const LUA_TEMP_FILE = "temp_athena_ide_atom.lua";
 
 export default class LuaCompiler implements Compiler {
 
-  readonly dependencyResolver: LuaDependencyResolver = new LuaDependencyResolver();
+  protected readonly dependencyResolver: LuaDependencyResolver = new LuaDependencyResolver();
 
-  public async compile(source: string, absolutePath: string): Promise<CompileResult> {
+  async compile(source: string, absolutePath: string): Promise<CompileResult> {
     logger.debug("Compile", absolutePath);
     logger.debug(source);
     const dependencyResolved = await this.dependencyResolver.resolveDependency(source, absolutePath);
