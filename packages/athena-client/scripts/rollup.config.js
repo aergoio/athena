@@ -10,6 +10,11 @@ const extensions = [
   '.js', '.jsx', '.ts', '.tsx',
 ];
 
+const nodeExternals = [
+];
+
+const externals = Object.keys(pkg.dependencies).concat(...nodeExternals);
+
 const name = 'AthenaClient';
 
 export default {
@@ -17,7 +22,7 @@ export default {
 
   // Specify here external modules which you don't want to include in your bundle (for instance: 'lodash', 'moment' etc.)
   // https://rollupjs.org/guide/en#external-e-external
-  external: [],
+  external: externals,
 
   plugins: [
     // Allow bundling cjs modules. Rollup doesn't understand cjs
@@ -37,7 +42,6 @@ export default {
 
     // Allows the node builtins to be required/imported
     builtins(),
-
   ],
 
   output: [{

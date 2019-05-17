@@ -1,3 +1,4 @@
-import * as utils from './utils';
+import { Amount, AthenaClient } from './client';
+import { newIdentity, decryptIdentity, encryptIdentity } from './account';
 
-export {utils};
+export { Amount, AthenaClient, newIdentity, decryptIdentity, encryptIdentity };

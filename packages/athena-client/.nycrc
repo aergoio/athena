@@ -6,10 +6,10 @@
   "description": "Code coverage generation setting",
   "check-coverage": true,
   "per-file": true,
-  "lines": 90,
-  "statements": 90,
-  "functions": 90,
-  "branches": 80,
+  "lines": 70,
+  "statements": 70,
+  "functions": 100,
+  "branches": 50,
   "include": [
     "src/**/*.ts"
   ],

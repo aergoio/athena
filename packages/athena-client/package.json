@@ -9,8 +9,9 @@
   "scripts": {
     "type-check": "tsc --noEmit",
     "type-check:watch": "yarn run type-check -- --watch",
-    "lint": "eslint --fix ./src/**/*.ts ./test/**/*.ts",
-    "test": "nyc mocha --exit --require babel-register-ts test/**/*.ts",
+    "lint": "eslint --fix \"./src/**/*.ts\"",
+    "test": "yarn run lint && nyc mocha --exit --require babel-register-ts \"./test/**/*test.ts\"",
+    "it": "mocha --exit --require babel-register-ts \"./test/**/*it.ts\"",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "rollup -c ./scripts/rollup.config.js ",
     "build": "yarn run test && yarn run build:types && yarn run build:js",
@@ -34,5 +35,9 @@
   },
   "homepage": "https://github.com/aergoio/athena#readme",
   "devDependencies": {},
-  "dependencies": {}
+  "dependencies": {
+    "@herajs/client": "^0.8.6",
+    "@herajs/crypto": "^0.4.2",
+    "lodash": "^4.17.11"
+  }
 }

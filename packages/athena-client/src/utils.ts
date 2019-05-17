@@ -1,21 +1,30 @@
 /**
- * Add {@code left} and {@code right}.
+ * Check an argument is empty or not.
  *
- * @param {Number} left a left value
- * @param {Number} right a right value
- * @return {Number} an addition value
+ * @param o a target to check whether is empty
+ * @return an empty check result
  */
-export const add = (left: number, right: number): number => {
-  return left + right;
-};
+export const isEmpty = (o: string | undefined | any): boolean => {
+  if (typeof o === "undefined" || null == o) {
+    return true;
+  }
+  if (typeof o === "string" && "" === o) {
+    return true;
+  }
+  if (typeof o === "object" && "" === o) {
+    return true;
+  }
+  return false;
+}
 
 /**
- * Subtract {@code right} from {@code left}.
+ * Assert target is empty.
  *
- * @param {Number} left a left value
- * @param {Number} right a right value
- * @return {Number} a subtraction value
+ * @param o a target
+ * @param message a message to throw when target is empty
  */
-export const subtract = (left: number, right: number): number => {
-  return left - right;
-};
+export const assertNotEmpty = (o: string | undefined | any, message?: string): void => {
+  if (isEmpty(o)) {
+    throw new Error(typeof message === "undefined" ? (o + " should not empty") : message);
+  }
+}
