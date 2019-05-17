@@ -40,11 +40,10 @@ export default class LuaCompiler implements Compiler {
       throw new Error(abiResult.stderr.toString());
     }
 
-    const payload = payloadResult.stdout.toString();
-    const jsonAbi = JSON.parse(this.readFile(abiTempFile));
-    const abi = JSON.stringify(jsonAbi, null, 2);
+    const payload = payloadResult.stdout.toString().trim();
+    const abi = JSON.parse(this.readFile(abiTempFile));
 
-    return new CompileResult(payload, abi);
+    return { payload: payload, abi: abi };
   }
 
   protected saveToTempFile(source: string): string {
