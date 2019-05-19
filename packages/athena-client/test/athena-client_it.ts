@@ -47,17 +47,27 @@ describe('AthenaClient', () => {
     const deployInfo = { payload: payload, args: [ key, deployIntVal, deployStringVal] };
     const deployResult = await athenaClient.deploy(identity, deployInfo, fee, amount);
 
-    athenaClient.prepare(deployResult.contractAddress, deployResult.abi); 
+    const executeInvocation = {
+      contractAddress: deployResult.contractAddress,
+      abi: deployResult.abi,
+      targetFunction: executeFunc,
+      args: [ key, executeIntVal, executeStringVal ]
+    };
+    const queryInvocation = {
+      contractAddress: deployResult.contractAddress,
+      abi: deployResult.abi,
+      targetFunction: queryFunc,
+      args: [key]
+    };
 
-    const queryResultAfterDeploy = await athenaClient.query({ targetFunction: queryFunc, args: [key]});
+    const queryResultAfterDeploy = await athenaClient.query(queryInvocation);
     assert.equal(queryResultAfterDeploy.intVal, deployIntVal);
     assert.equal(queryResultAfterDeploy.stringVal, deployStringVal);
 
-    const executeInfo = { targetFunction: executeFunc, args: [ key, executeIntVal, executeStringVal ] };
-    const executeResult = await athenaClient.execute(identity, executeInfo, fee, amount);
+    const executeResult = await athenaClient.execute(identity, executeInvocation, fee, amount);
     assert.isNotNull(executeResult);
 
-    const queryResultAfterExecute = await athenaClient.query({ targetFunction: queryFunc, args: [key]});
+    const queryResultAfterExecute = await athenaClient.query(queryInvocation);
     assert.equal(queryResultAfterExecute.intVal, executeIntVal);
     assert.equal(queryResultAfterExecute.stringVal, executeStringVal);
   }).timeout(5000);

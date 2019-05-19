@@ -21,6 +21,8 @@ interface DeployInfo {
 }
 
 interface InvocationInfo {
+  contractAddress: string;
+  abi: object;
   targetFunction: string;
   args?: any[];
 }
@@ -75,12 +77,6 @@ export class AthenaClient {
     return await this.client.getABI(contractAddress);
   }
 
-  prepare(contractAddress: string, abi: object): void {
-    assertNotEmpty(contractAddress, "Contract address should not be empty");
-    assertNotEmpty(abi, "Abi should not be empty");
-    this.contract = Contract.fromAbi(abi).setAddress(contractAddress);
-  }
-
   async deploy(identity: Identity, deployInfo: DeployInfo, fee: Fee, amount?: string): Promise<DeployResult> {
     assertNotEmpty(identity, "Identity should not be empty");
     assertNotEmpty(deployInfo, "Deploy info should not be empty");
@@ -120,16 +116,13 @@ export class AthenaClient {
     assertNotEmpty(invocationInfo, "Invocation info should not be empty");
     assertNotEmpty(fee, "Fee should not be empty");
 
-    if (typeof this.contract === "undefined") {
-      throw new Error("Contract abi is not ready");
-    }
-
     const from = identity.address;
     const chainIdHash = await this.client.getChainIdHash();
     const actualAmount = typeof amount === "undefined" ? "0" : amount;
 
+    const contract = Contract.fromAbi(invocationInfo.abi).setAddress(invocationInfo.contractAddress);
     // @ts-ignore
-    const functionCall = this.contract[invocationInfo.targetFunction](...invocationInfo.args);
+    const functionCall = contract[invocationInfo.targetFunction](...invocationInfo.args);
     const trier = async (nonce: number): Promise<string> => {
       const rawTx = functionCall.asTransaction({
         chainIdHash: chainIdHash,
@@ -152,12 +145,10 @@ export class AthenaClient {
   async query(invocationInfo: InvocationInfo): Promise<any> {
     assertNotEmpty(invocationInfo, "Invocation info should not be empty");
 
-    if (typeof this.contract === "undefined") {
-      throw new Error("Contract abi is not ready");
-    }
-
+    const contract = Contract.fromAbi(invocationInfo.abi).setAddress(invocationInfo.contractAddress);
     // @ts-ignore
-    const functionCall = this.contract[invocationInfo.targetFunction](...invocationInfo.args);
+    const functionCall = contract[invocationInfo.targetFunction](...invocationInfo.args);
+
     return await this.client.queryContract(functionCall);
   }
 
