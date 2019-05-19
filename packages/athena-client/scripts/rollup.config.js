@@ -1,5 +1,6 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
+import typescript from 'rollup-plugin-typescript2';
 import json from 'rollup-plugin-json';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
@@ -25,6 +26,9 @@ export default {
   external: externals,
 
   plugins: [
+    // resolve typescript compile error
+    typescript(),
+
     // Allow bundling cjs modules. Rollup doesn't understand cjs
     commonjs(),
 

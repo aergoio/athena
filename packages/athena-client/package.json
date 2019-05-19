@@ -1,5 +1,5 @@
 {
-  "name": "@aergoio/athena-client",
+  "name": "@aergo/athena-client",
   "version": "0.0.1",
   "description": "Aergo client wrapper for interacting with aergo node.",
   "main": "dist/athena-client.cjs.js",
@@ -34,7 +34,9 @@
     "url": "https://github.com/aergoio/athena/issues"
   },
   "homepage": "https://github.com/aergoio/athena#readme",
-  "devDependencies": {},
+  "devDependencies": {
+    "rollup-plugin-typescript2": "^0.21.0"
+  },
   "dependencies": {
     "@herajs/client": "^0.8.6",
     "@herajs/crypto": "^0.4.2",
