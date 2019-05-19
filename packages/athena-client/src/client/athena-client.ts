@@ -1,5 +1,5 @@
 import { AergoClient, GrpcProvider, Contract, Amount } from '@herajs/client';
-import { Identity, signTx } from '../account';
+import { Account } from '../account';
 
 import { assertNotEmpty } from '../utils';
 
@@ -77,12 +77,12 @@ export class AthenaClient {
     return await this.client.getABI(contractAddress);
   }
 
-  async deploy(identity: Identity, deployInfo: DeployInfo, fee: Fee, amount?: string): Promise<DeployResult> {
-    assertNotEmpty(identity, "Identity should not be empty");
+  async deploy(account: Account, deployInfo: DeployInfo, fee: Fee, amount?: string): Promise<DeployResult> {
+    assertNotEmpty(account, "Account should not be empty");
     assertNotEmpty(deployInfo, "Deploy info should not be empty");
     assertNotEmpty(fee, "Fee should not be empty");
 
-    const from = identity.address;
+    const from = account.address;
     const chainIdHash = await this.client.getChainIdHash();
     const actualAmount = typeof amount === "undefined" ? "0" : amount;
     const payload = Contract.fromCode(deployInfo.payload.trim()).asPayload(deployInfo.args);
@@ -96,7 +96,7 @@ export class AthenaClient {
         amount: actualAmount,
         payload: payload
       };
-      const signedTx = await signTx(identity, rawTx);
+      const signedTx = await account.signTx(rawTx);
       return await this.client.sendSignedTransaction(signedTx);
     };
     const txHash = await this.tryWithNonceRefresh(from, trier);
@@ -111,12 +111,12 @@ export class AthenaClient {
     return deployResult;
   }
 
-  async execute(identity: Identity, invocationInfo: InvocationInfo, fee: Fee, amount?: string): Promise<ExecuteResult> {
-    assertNotEmpty(identity, "Identity should not be empty");
+  async execute(account: Account, invocationInfo: InvocationInfo, fee: Fee, amount?: string): Promise<ExecuteResult> {
+    assertNotEmpty(account, "Account should not be empty");
     assertNotEmpty(invocationInfo, "Invocation info should not be empty");
     assertNotEmpty(fee, "Fee should not be empty");
 
-    const from = identity.address;
+    const from = account.address;
     const chainIdHash = await this.client.getChainIdHash();
     const actualAmount = typeof amount === "undefined" ? "0" : amount;
 
@@ -130,7 +130,7 @@ export class AthenaClient {
         nonce: nonce,
         amount: actualAmount
       });
-      const signedTx = await signTx(identity, rawTx);
+      const signedTx = await account.signTx(rawTx);
       return await this.client.sendSignedTransaction(signedTx);
     };
     const txHash = await this.tryWithNonceRefresh(from, trier);

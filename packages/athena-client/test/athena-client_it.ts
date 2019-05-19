@@ -4,7 +4,7 @@ import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import { newIdentity, AthenaClient } from '../src';
+import { Account, AthenaClient } from '../src';
 
 const endpoint = "localhost:7845";
 
@@ -21,14 +21,14 @@ describe('AthenaClient', () => {
   it('should fetch account state', async () => {
     const athenaClient = new AthenaClient();
     athenaClient.use(endpoint);
-    const identity = await newIdentity();
-    const state = await athenaClient.getState(identity.address);
+    const account = await Account.new();
+    const state = await athenaClient.getState(account.address);
     assert.isNotNull(state.nonce);
     assert.isNotNull(state.balance);
   });
 
   it('should deploy and execute and get abi contract correctly', async () => {
-    const identity = await newIdentity();
+    const account = await Account.new();
     const fee = { price: "0", limit: 0 };
     const amount = "10";
 
@@ -45,7 +45,7 @@ describe('AthenaClient', () => {
 
     const payload = fs.readFileSync(__dirname + '/res/payable-with-args.payload', 'utf8');
     const deployInfo = { payload: payload, args: [ key, deployIntVal, deployStringVal] };
-    const deployResult = await athenaClient.deploy(identity, deployInfo, fee, amount);
+    const deployResult = await athenaClient.deploy(account, deployInfo, fee, amount);
 
     const executeInvocation = {
       contractAddress: deployResult.contractAddress,
@@ -64,7 +64,7 @@ describe('AthenaClient', () => {
     assert.equal(queryResultAfterDeploy.intVal, deployIntVal);
     assert.equal(queryResultAfterDeploy.stringVal, deployStringVal);
 
-    const executeResult = await athenaClient.execute(identity, executeInvocation, fee, amount);
+    const executeResult = await athenaClient.execute(account, executeInvocation, fee, amount);
     assert.isNotNull(executeResult);
 
     const queryResultAfterExecute = await athenaClient.query(queryInvocation);

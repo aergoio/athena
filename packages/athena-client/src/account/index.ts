@@ -1,7 +1,1 @@
-export {
-  Identity,
-  newIdentity,
-  decryptIdentity,
-  encryptIdentity,
-  signTx
-} from './identity';
+export { Account } from './account';
