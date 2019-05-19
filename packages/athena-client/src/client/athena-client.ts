@@ -7,7 +7,7 @@ export { Amount };
 
 interface BlockchainStatus {
   bestHeight: number;
-  bestHash: Uint8Array | string;
+  bestBlockHash: string;
 }
 
 interface AccountState {
@@ -61,7 +61,7 @@ export class AthenaClient {
 
   async getBlockchainStatus(): Promise<BlockchainStatus> {
     const blockchainStatus = await this.client.blockchain();
-    return { bestHeight: blockchainStatus.bestHeight, bestHash: blockchainStatus.bestBlockHash };
+    return { bestHeight: blockchainStatus.bestHeight, bestBlockHash: blockchainStatus.bestBlockHash.toString() };
   }
 
   async getState(accountAddress: string): Promise<AccountState> {

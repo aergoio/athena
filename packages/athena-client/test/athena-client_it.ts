@@ -14,7 +14,7 @@ describe('AthenaClient', () => {
     const athenaClient = new AthenaClient();
     athenaClient.use(endpoint);
     const status = await athenaClient.getBlockchainStatus();
-    assert.isNotNull(status.bestHash);
+    assert.isNotNull(status.bestBlockHash);
     assert.isNotNull(status.bestHeight);
   });
 
