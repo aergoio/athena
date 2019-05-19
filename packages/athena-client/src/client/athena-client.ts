@@ -85,7 +85,7 @@ export class AthenaClient {
     const from = identity.address;
     const chainIdHash = await this.client.getChainIdHash();
     const actualAmount = typeof amount === "undefined" ? "0" : amount;
-    const payload = Contract.fromCode(deployInfo.payload).asPayload(deployInfo.args);
+    const payload = Contract.fromCode(deployInfo.payload.trim()).asPayload(deployInfo.args);
 
     const trier = async (nonce: number): Promise<string> => {
       const rawTx = {
