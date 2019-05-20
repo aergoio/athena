@@ -1,3 +1,4 @@
-import * as utils from './utils';
+import { Account } from './account';
+import { Amount, AthenaClient } from './client';
 
-export {utils};
+export { Account, Amount, AthenaClient };
