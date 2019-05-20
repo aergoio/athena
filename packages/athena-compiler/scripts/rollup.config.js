@@ -13,6 +13,7 @@ const extensions = [
 ];
 
 const nodeExternals = [
+  'path',
   'fs',
   'os',
   'child_process',
