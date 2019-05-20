@@ -1,21 +1,25 @@
 # athena-client
 
+[![npm](https://img.shields.io/npm/v/@aergo/athena-client.svg)](https://www.npmjs.com/package/@aergo/athena-client)
+[![npm](https://img.shields.io/npm/dm/@aergo/athena-client.svg)](https://www.npmjs.com/package/@aergo/athena-client)
+
+
 Provides client wrapper for interacting with aergo node
 
 ## Api
 
 ```js
 const test = async () => {
-  // create an identity
-  const identity = await newIdentity();
+  // create an account
+  const account = await Account.new();
 
-  // encrypt identity
-  const encrypted = await encryptIdentity(originIdentity, "1234");
+  // encrypt account
+  const encrypted = await originAccount.encrypt("password");
 
   // decrypt identity
   const encrypted = "47NoLteKjMtEGenYRba1xFjmAeibp454gZCgPUCX12TkPyfEZMCN6ZxcYQ1yWXsoXQLBGuCUA";
   const password = "1234";
-  const restoredIdentity = await decryptIdentity(encrypted, password);
+  const restoredAccount = await Account.from(encrypted, password);
 
   // create athena client
   const athenaClient = new AthenaClient();
@@ -28,27 +32,38 @@ const test = async () => {
   const blockchainStatus = await athenaClient.getBlockchainStatus();
 
   // get account state
-  const blockchainStatus = await athenaClient.getState(identity.address);
+  const accountState = await athenaClient.getState(account.address);
 
   // get abi of already deployed contract
-  const contractAddress = "AmgnWWfX1g9p3vLFCuw81qNRnf91MvYnNcdCWZJWZQa7QaA2ZTei";
-  const abi = await athenaClient.getABI(contractAddress);
+  const queriedAbi = await athenaClient.getABI("AmgnWWfX1g9p3vLFCuw81qNRnf91MvYnNcdCWZJWZQa7QaA2ZTei");
 
   // deploy contract with 10 aer
   const payload = "some_payload";
   const deployInfo = { payload: payload, args: [ "key", "value" ] };
   const fee = { price: "0", limit: 0 };
-  const deployResult = await athenaClient.deploy(identity, deployInfo, fee, "10");
+  const deployResult = await athenaClient.deploy(account, deployInfo, fee, "10");
 
-  // prepare contract abi (necessary to execute, query contract)
-  athenaClient.prepare(deployResult.contractAddress, deployResult.abi);
+  // get contract info
+  const contractAddress = deployResult.contractAddress;
+  const abi = deployResult.abi;
 
   // execute contract
-  const executeInfo = { targetFunction: "set", args: [ "key2", "value2" ] };
-  const executeResult = await athenaClient.execute(identity, executeInfo, fee);
+  const executeInfo = {
+    contractAddress: contractAddress,
+    abi: abi,
+    targetFunction: "set",
+    args: [ "key2", "value2" ]
+  };
+  const executeResult = await athenaClient.execute(account, executeInfo, fee, "10");
 
   // query contract
-  const queryResultAfterExecute = await athenaClient.query({ targetFunction: "get", args: [ "key" ]});
+  const queryInto = {
+    contractAddress: contractAddress,
+    abi: abi,
+    targetFunction: "get",
+    args: [ "key" ]
+  };
+  const queryResult = await athenaClient.query(queryInto);
 }
 ```
 
