@@ -1,6 +1,6 @@
 {
   "name": "@aergo/athena-compiler",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Aergo smart contract compiler.",
   "main": "dist/athena-compiler.cjs.js",
   "module": "dist/athena-compiler.esm.js",
@@ -9,8 +9,8 @@
   "scripts": {
     "type-check": "tsc --noEmit",
     "type-check:watch": "yarn run type-check -- --watch",
-    "lint": "eslint --fix ./src/**/*.ts ./test/**/*.ts",
-    "test": "nyc mocha --exit --require babel-register-ts test/**/*.ts",
+    "lint": "eslint --fix \"./src/**/*.ts\"",
+    "test": "yarn run lint && nyc mocha --exit --require babel-register-ts \"./test/**/*.ts\"",
     "build": "yarn run test &&  yarn run build:types && yarn run build:js",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "rollup -c ./scripts/rollup.config.js ",

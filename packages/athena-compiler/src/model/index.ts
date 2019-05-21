@@ -1,4 +1,9 @@
-import CompileResult from './compile-result';
-import CompilerType from './compiler-type';
+export interface CompileResult {
+  payload: string;
+  abi: any;
+}
 
-export {CompileResult, CompilerType};
+export enum CompilerType {
+  Lua,
+  Ascl
+};

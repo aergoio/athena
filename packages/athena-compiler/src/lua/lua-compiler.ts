@@ -17,9 +17,9 @@ const LUA_TEMP_FILE = "temp_athena_ide_atom.lua";
 
 export default class LuaCompiler implements Compiler {
 
-  readonly dependencyResolver: LuaDependencyResolver = new LuaDependencyResolver();
+  protected readonly dependencyResolver: LuaDependencyResolver = new LuaDependencyResolver();
 
-  public async compile(source: string, absolutePath: string): Promise<CompileResult> {
+  async compile(source: string, absolutePath: string): Promise<CompileResult> {
     logger.debug("Compile", absolutePath);
     logger.debug(source);
     const dependencyResolved = await this.dependencyResolver.resolveDependency(source, absolutePath);
@@ -40,11 +40,10 @@ export default class LuaCompiler implements Compiler {
       throw new Error(abiResult.stderr.toString());
     }
 
-    const payload = payloadResult.stdout.toString();
-    const jsonAbi = JSON.parse(this.readFile(abiTempFile));
-    const abi = JSON.stringify(jsonAbi, null, 2);
+    const payload = payloadResult.stdout.toString().trim();
+    const abi = JSON.parse(this.readFile(abiTempFile));
 
-    return new CompileResult(payload, abi);
+    return { payload: payload, abi: abi };
   }
 
   protected saveToTempFile(source: string): string {
