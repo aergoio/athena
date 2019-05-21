@@ -1,6 +1,6 @@
 {
   "name": "@aergo/athena-analysis",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Aergo smart contract code based analysis.",
   "main": "dist/athena-analysis.cjs.js",
   "module": "dist/athena-analysis.esm.js",
