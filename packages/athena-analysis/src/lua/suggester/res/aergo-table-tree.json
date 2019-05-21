@@ -300,11 +300,11 @@
         }
       ]
     },
-    "ecverity": {
+    "ecverify": {
       "__possibleValues": [
         {
           "type": "function",
-          "snippet": "ecverity(${1:message}, ${2:signature}, ${3:address})"
+          "snippet": "ecverify(${1:message}, ${2:signature}, ${3:address})"
         }
       ]
     }
