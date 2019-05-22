@@ -1,3 +1,7 @@
+## 0.1.2 - Hotfix
+
+* Replace aergoluac binary for window
+
 ## 0.1.1 - Menu, Bug patch
 
 * Upgrade compiler version to v1.0.4
