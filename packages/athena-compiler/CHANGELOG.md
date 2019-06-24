@@ -1,3 +1,7 @@
+## 0.1.3 - Upgrade compier binary
+
+* Upgrade compiler binary to v1.1.1
+
 ## 0.1.2 - Hotfix
 
 * Replace aergoluac binary for window

@@ -8,7 +8,7 @@ Provides compiler for [aergo smart contract](https://docs.aergo.io/en/latest/sma
 * [lua](https://docs.aergo.io/en/latest/smart-contracts/lua/index.html)
 * [ascl](https://docs.aergo.io/en/latest/smart-contracts/scl/index.html)
 
-aergoluac version : [v1.0.4](https://github.com/aergoio/aergo/releases/tag/v1.0.4)
+aergoluac version : [v1.1.1](https://github.com/aergoio/aergo/releases/tag/v1.1.1)
 
 ## Api
 
@@ -20,9 +20,8 @@ const source = "${LUA_SOURCE}";
 const luaCompiler = new CompilerFactory().create(CompilerType.Lua);
 
 luaCompiler.compile(source, filePath).then(compileResult => {
-  console.log("Compile result");
-  console.log("Payload", compileResult.payload);
-  console.log("Abi", compileResult.abi);
+  console.log("Payload", compileResult.payload); // as a trimmed string form
+  console.log("Abi", compileResult.abi); // as a json object
 }).catch(err => {
   console.log("Error", err);
 });
