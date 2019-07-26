@@ -15,6 +15,7 @@
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "rollup -c ./scripts/rollup.config.js ",
     "build": "rm -rf ./dist && yarn run test && yarn run build:types && yarn run build:js",
+    "link": "./scripts/electron-link.sh",
     "docs": "typedoc --out docs ./src/"
   },
   "repository": {
