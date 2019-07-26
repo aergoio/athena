@@ -14,7 +14,7 @@
     "it": "mocha --exit --require babel-register-ts \"./test/**/*it.ts\"",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "rollup -c ./scripts/rollup.config.js ",
-    "build": "yarn run test && yarn run build:types && yarn run build:js",
+    "build": "rm -rf ./dist && yarn run test && yarn run build:types && yarn run build:js",
     "docs": "typedoc --out docs ./src/"
   },
   "repository": {
