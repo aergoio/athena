@@ -1,6 +1,6 @@
 {
   "name": "@aergo/athena-client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Aergo client wrapper for interacting with aergo node.",
   "main": "dist/athena-client.cjs.js",
   "module": "dist/athena-client.esm.js",
@@ -14,7 +14,8 @@
     "it": "mocha --exit --require babel-register-ts \"./test/**/*it.ts\"",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "rollup -c ./scripts/rollup.config.js ",
-    "build": "yarn run test && yarn run build:types && yarn run build:js",
+    "build": "rm -rf ./dist && yarn run test && yarn run build:types && yarn run build:js",
+    "link": "./scripts/electron-link.sh",
     "docs": "typedoc --out docs ./src/"
   },
   "repository": {
@@ -38,8 +39,8 @@
     "rollup-plugin-typescript2": "^0.21.0"
   },
   "dependencies": {
-    "@herajs/client": "^0.8.6",
-    "@herajs/crypto": "^0.4.2",
+    "@herajs/client": "^0.10.3",
+    "@herajs/crypto": "^0.10.3",
     "lodash": "^4.17.11"
   }
 }

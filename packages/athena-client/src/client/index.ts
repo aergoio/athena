@@ -1,3 +1,3 @@
-import { Amount, AthenaClient } from './athena-client';
+import { AthenaClient } from './athena-client';
 
-export { Amount, AthenaClient };
+export { AthenaClient, AthenaClient as default };
