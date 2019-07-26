@@ -17,11 +17,12 @@ If some common settings have to be changed in all modules, commit it into master
 
 Simple release process.
 
-1. `rm -rf ./node_modules && yarn install`
+1. Clean up repository : `rm -rf ../../node_modules && yarn install`
 2. Make sure all tests passes (`yarn run test` and `yarn run it` if exists)
-3. `yarn run build`
-4. Update `CHANGELOG.md`
-5. `git tag athena-xxx@vx.x.x`
-6. `yarn publish --access public`
-7. `git checkout master && git merge`
-
+3. Build: `yarn run build`
+4. Update `CHANGELOG.md` && change version of `package.json`
+5. Commit step 4 changes : `git commit -m "Prepare for athena-xxx@vx.x.x"`
+6. Make tag : `git tag athena-xxx@vx.x.x`
+7. Publish changelog & tag : `git push && git push origin athena-xxx@vx.x.x`
+8. Publish package to the npm : `yarn publish --access public`
+9. Merge it into master : `git checkout master && git merge && git push`
