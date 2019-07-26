@@ -1,64 +1,32 @@
-import { AergoClient, GrpcProvider, Contract, Amount } from '@herajs/client';
+import { AergoClient, GrpcProvider } from '@herajs/client';
 import { Account } from '../account';
 
 import { assertNotEmpty } from '../utils';
+import { BlockchainStatus, AccountState, Deployment, Invocation, Query, DeployResult, ExecuteResult } from '../model';
+import { ContractInterface } from '../contract';
 
-export { Amount };
-
-interface BlockchainStatus {
-  bestHeight: number;
-  bestBlockHash: string;
-}
-
-interface AccountState {
-  nonce: number;
-  balance: Amount;
-}
-
-interface DeployInfo {
-  payload: string;
-  args?: any[];
-}
-
-interface InvocationInfo {
-  contractAddress: string;
-  abi: object;
-  targetFunction: string;
-  args?: any[];
-}
-
-interface Fee {
-  price: string;
-  limit: number;
-}
-
-interface DeployResult extends ExecuteResult {
-  abi: object;
-}
-
-interface ExecuteResult {
-  contractAddress: string;
-  txHash: string;
-  result: string;
-  status: string;
-  fee: Amount;
-  cumulativefee: Amount;
-}
+import Transaction from './transaction';
 
 const contractTxSuccesses = ["CREATED", "SUCCESS"];
 
+/**
+ * In charge of client interaction specially on aergo smart contract.
+ */
 export class AthenaClient {
 
-  protected client: AergoClient; 
-  protected contract: Contract | undefined;
+  protected readonly client: AergoClient = new AergoClient();
+  protected chainIdHash: string | Uint8Array = "";
 
-  constructor() {
-    this.client = new AergoClient();
+  constructor(endpoint?: string) {
+    if (endpoint) {
+      this.use(endpoint);
+    }
   }
 
   use(endpoint: string): void {
     assertNotEmpty(endpoint, "Endpoint should not be empty");
     this.client.setProvider(new GrpcProvider({url: endpoint}));
+    this.chainIdHash = ""; // mark as dirty
   }
 
   async getBlockchainStatus(): Promise<BlockchainStatus> {
@@ -72,88 +40,73 @@ export class AthenaClient {
     return { nonce: state.nonce, balance: state.balance };
   }
 
-  async getABI(contractAddress: string): Promise<object> {
+  async getContractInterface(contractAddress: string): Promise<ContractInterface> {
     assertNotEmpty(contractAddress, "Contract address should not be empty");
-    return await this.client.getABI(contractAddress);
+
+    const abi = await this.client.getABI(contractAddress);
+    return new ContractInterface(contractAddress, abi);
   }
 
-  async deploy(account: Account, deployInfo: DeployInfo, fee: Fee, amount?: string): Promise<DeployResult> {
+  async deploy(account: Account, deployment: Deployment, feeLimit: number): Promise<DeployResult> {
     assertNotEmpty(account, "Account should not be empty");
-    assertNotEmpty(deployInfo, "Deploy info should not be empty");
-    assertNotEmpty(fee, "Fee should not be empty");
+    assertNotEmpty(deployment, "Deployment should not be empty");
+    assertNotEmpty(feeLimit, "Fee limit should not be empty");
 
-    const from = account.address;
-    const chainIdHash = await this.client.getChainIdHash();
-    const actualAmount = typeof amount === "undefined" ? "0" : amount;
-    const payload = Contract.fromCode(deployInfo.payload.trim()).asPayload(deployInfo.args);
+    const chainIdHash = await this.getChainIdHash();
+    const creator = account.address;
 
     const trier = async (nonce: number): Promise<string> => {
-      const rawTx = {
-        chainIdHash: chainIdHash,
-        from: from,
-        to: "",
-        nonce: nonce,
-        amount: actualAmount,
-        payload: payload
-      };
+      const rawTx = Transaction.deployTx(creator, deployment, feeLimit);
+      rawTx.chainIdHash = chainIdHash;
+      rawTx.nonce = nonce;
       const signedTx = await account.signTx(rawTx);
       return await this.client.sendSignedTransaction(signedTx);
     };
-    const txHash = await this.tryWithNonceRefresh(from, trier);
+    const txHash = await this.tryWithNonceRefresh(creator, trier);
     const receipt = await this.pollingReceipt(txHash);
 
     const contractAddress = receipt.contractaddress.toString();
-    const abi = await this.getABI(contractAddress);
 
-    const deployResult = this.buildExecuteResult(contractAddress, txHash, receipt.result, receipt.status, receipt.fee, receipt.cumulativefee);
-    deployResult.abi = abi;
+    const deployResult = this.buildExecuteResult(contractAddress, txHash, receipt);
+
+    const contractInterface = await this.getContractInterface(contractAddress);
+    deployResult.contractInterface = contractInterface;
 
     return deployResult;
   }
 
-  async execute(account: Account, invocationInfo: InvocationInfo, fee: Fee, amount?: string): Promise<ExecuteResult> {
+  async execute(account: Account, invocation: Invocation, feeLimit: number): Promise<ExecuteResult> {
     assertNotEmpty(account, "Account should not be empty");
-    assertNotEmpty(invocationInfo, "Invocation info should not be empty");
-    assertNotEmpty(fee, "Fee should not be empty");
+    assertNotEmpty(invocation, "Invocation should not be empty");
+    assertNotEmpty(feeLimit, "Fee limit should not be empty");
 
-    const from = account.address;
-    const chainIdHash = await this.client.getChainIdHash();
-    const actualAmount = typeof amount === "undefined" ? "0" : amount;
+    const chainIdHash = await this.getChainIdHash();
+    const executor = account.address;
 
-    const contract = Contract.fromAbi(invocationInfo.abi).setAddress(invocationInfo.contractAddress);
-    // @ts-ignore
-    const functionCall = contract[invocationInfo.targetFunction](...invocationInfo.args);
     const trier = async (nonce: number): Promise<string> => {
-      const rawTx = functionCall.asTransaction({
-        chainIdHash: chainIdHash,
-        from: from,
-        nonce: nonce,
-        amount: actualAmount
-      });
+      const rawTx = Transaction.executeTx(executor, invocation, feeLimit);
+      rawTx.chainIdHash = chainIdHash;
+      rawTx.nonce = nonce;
       const signedTx = await account.signTx(rawTx);
       return await this.client.sendSignedTransaction(signedTx);
     };
-    const txHash = await this.tryWithNonceRefresh(from, trier);
+    const txHash = await this.tryWithNonceRefresh(executor, trier);
     const receipt = await this.pollingReceipt(txHash);
 
     const contractAddress = receipt.contractaddress.toString();
-    const executeResult = this.buildExecuteResult(contractAddress, txHash, receipt.result, receipt.status, receipt.fee, receipt.cumulativefee);
+    const executeResult = this.buildExecuteResult(contractAddress, txHash, receipt);
 
     return executeResult;
   }
 
-  async query(invocationInfo: InvocationInfo): Promise<any> {
-    assertNotEmpty(invocationInfo, "Invocation info should not be empty");
-
-    const contract = Contract.fromAbi(invocationInfo.abi).setAddress(invocationInfo.contractAddress);
-    // @ts-ignore
-    const functionCall = contract[invocationInfo.targetFunction](...invocationInfo.args);
-
-    return await this.client.queryContract(functionCall);
+  async query(query: Query): Promise<any> {
+    assertNotEmpty(query, "Invocation info should not be empty");
+    return await this.client.queryContract(query.functionCall);
   }
 
   protected async tryWithNonceRefresh(from: string, trier: (nonce: number) => Promise<string>): Promise<string> {
     const nonce = await this.fetchNextNonceOf(from);
+    // TODO : try with nonce refresh
     return await trier(nonce);
   }
 
@@ -184,14 +137,23 @@ export class AthenaClient {
     });
   }
 
-  protected buildExecuteResult(contractAddress: string, txHash: string, result: string, status: string, fee: Amount, cumulativefee: Amount): any {
+  protected async getChainIdHash(): Promise<string | Uint8Array> {
+    if ("" === this.chainIdHash) {
+      this.chainIdHash = await this.client.getChainIdHash();
+    }
+    return this.chainIdHash;
+  }
+
+  protected buildExecuteResult(contractAddress: string, txHash: string, receipt: any): any {
     return {
       contractAddress: contractAddress,
       txHash: txHash,
-      result: result,
-      status: status,
-      fee: fee,
-      cumulativefee: cumulativefee
+      result: receipt.result,
+      status: receipt.status,
+      fee: receipt.fee,
+      cumulativefee: receipt.cumulativefee,
+      blockno: receipt.number,
+      blockhash: receipt.string
     };
   }
 

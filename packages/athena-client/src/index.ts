@@ -1,4 +1,5 @@
 import { Account } from './account';
-import { Amount, AthenaClient } from './client';
+import { AthenaClient } from './client';
+import { Amount } from './model';
 
-export { Account, Amount, AthenaClient };
+export { Account, AthenaClient, Amount };

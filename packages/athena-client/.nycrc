@@ -9,7 +9,7 @@
   "lines": 70,
   "statements": 70,
   "functions": 100,
-  "branches": 50,
+  "branches": 0,
   "include": [
     "src/**/*.ts"
   ],

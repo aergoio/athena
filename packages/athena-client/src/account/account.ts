@@ -12,19 +12,10 @@ import _ from 'lodash';
 
 import { assertNotEmpty } from '../utils';
 
+/**
+ * In charge of creating account, signing tx, import / exporting account
+ */
 export class Account {
-
-  public address: string;
-  protected publicKey: any;
-  protected privateKey: Buffer;
-  protected keyPair: any;
-
-  protected constructor(address: string, publicKey: any, privateKey: Buffer, keyPair: any) {
-    this.address = address;
-    this.publicKey = publicKey;
-    this.privateKey = privateKey;
-    this.keyPair = keyPair;
-  }
 
   /**
    * Create an new account.
@@ -55,6 +46,18 @@ export class Account {
     return new Account(identity.address, identity.publicKey, identity.privateKey, identity.keyPair);
   }
 
+  public readonly address: string;
+  protected readonly publicKey: any;
+  protected readonly privateKey: Buffer;
+  protected readonly keyPair: any;
+
+  protected constructor(address: string, publicKey: any, privateKey: Buffer, keyPair: any) {
+    this.address = address;
+    this.publicKey = publicKey;
+    this.privateKey = privateKey;
+    this.keyPair = keyPair;
+  }
+
   /**
    * Encrypt account identity with password.
    *
@@ -62,7 +65,7 @@ export class Account {
    *
    * @return an encrypted identity
    */
-  encrypt = async (password: string): Promise<string> => {
+  export = async (password: string): Promise<string> => {
     assertNotEmpty(password, "Password to encrypt should not be empty");
 
     const encryptedBytes = encryptPrivateKey(this.privateKey, password);
@@ -87,7 +90,10 @@ export class Account {
     // TODO : acktsap's hack. there is a bug in signTransaction of @herajs/crypto^0.4.2
     // see also https://github.com/aergoio/herajs/pull/4
     signedTx.amount = rawTx.amount + " aer";
+
     return signedTx;
   }
 
 }
+
+export default Account;
