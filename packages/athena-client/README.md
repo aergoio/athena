@@ -5,6 +5,8 @@
 
 Provides client wrapper for interacting with aergo node
 
+Aergo version compatibility: `v1.3.x`
+
 ## Api
 
 I am too lazy to write tutorial. Just see following test code.
@@ -20,3 +22,4 @@ I am too lazy to write tutorial. Just see following test code.
 - Test : `yarn run test`
 - Integration test : `yarn run it` (Assuming aergo server is running on testmode in a localhost)
 - Build : `yarn run build`
+
