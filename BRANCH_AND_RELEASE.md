@@ -4,14 +4,15 @@
 
 ### develop/xxx
 
-We have several sub projects as a monorepo. Each project has little in common. So we use develop branch for each sub-project.  
+We have several sub projects as a monorepo. Each project has little in common. So we use develop branch for each sub-project.\
 For example, if we are developing athena-analysis, main branch would be `develop/athena-analysis`. Each tag is made in each develop branch.
 
 ### master
 
-Master branch holds all the released one.
-
-If some common settings have to be changed in all modules, commit it into master cherry-pick that commit into `develop/xxx` branches
+Master branch holds all the released one.\
+If some common settings have to be changed in all modules, commit it into master cherry-pick that commit into `develop/xxx` branches.\
+Since i am lazy, i wrote some script in `./scripts/` directory.\
+Just write changes in the master & run `./scripts/apply-common-changes.sh` and `./scripts/push-all.sh`
 
 ## Release process
 
@@ -25,4 +26,4 @@ Simple release process.
 6. Make tag : `git tag athena-xxx@vx.x.x`
 7. Publish changelog & tag : `git push && git push origin athena-xxx@vx.x.x`
 8. Publish package to the npm : `yarn publish --access public`
-9. Merge it into master : `git checkout master && git merge && git push`
+9. Merge it into master : `git checkout master && git merge develop/athena-xxx && git push origin`
