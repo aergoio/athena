@@ -1,3 +1,7 @@
+## 0.1.2
+
+* Update herajs version to 0.13.2
+
 ## 0.1.1
 
 * Update herajs version to 0.10.3
