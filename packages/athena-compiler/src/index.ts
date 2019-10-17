@@ -1,4 +1,4 @@
-import {CompilerFactory} from './api';
-import {CompilerType} from './model';
+import { CompilerFactory } from './api/compiler-factory';
+import { CompilerType } from './model';
 
-export {CompilerType, CompilerFactory};
+export { CompilerType, CompilerFactory };
