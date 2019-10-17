@@ -8,7 +8,7 @@ Provides compiler for [aergo smart contract](https://docs.aergo.io/en/latest/sma
 * [lua](https://docs.aergo.io/en/latest/smart-contracts/lua/index.html)
 * [ascl](https://docs.aergo.io/en/latest/smart-contracts/scl/index.html)
 
-aergoluac version : [v1.1.1](https://github.com/aergoio/aergo/releases/tag/v1.1.1)
+aergoluac version : [v1.3.0](https://github.com/aergoio/aergo/releases/tag/v1.3.0)
 
 ## Api
 

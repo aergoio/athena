@@ -1,9 +1,9 @@
 import { CompilerType } from "../model";
 import { LuaCompiler } from "../lua";
 import { AsclCompiler } from "../ascl";
-import Compiler from './compiler';
+import { Compiler } from './compiler';
 
-export default class CompilerFactory {
+export class CompilerFactory {
 
   public create(type: CompilerType): Compiler {
     switch (type) {
@@ -15,3 +15,5 @@ export default class CompilerFactory {
   }
 
 }
+
+export default CompilerFactory;

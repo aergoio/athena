@@ -6,7 +6,7 @@ import globals from 'rollup-plugin-node-globals';
 import resolve from 'rollup-plugin-node-resolve';
 import pkg from '../package.json';
 
-import copy from 'rollup-plugin-cpy';
+import copy from 'rollup-plugin-copy';
 
 const extensions = [
   '.js', '.jsx', '.ts', '.tsx',
@@ -51,11 +51,9 @@ export default {
 
     // Copy files
     copy({
-      files: "src/lua/res/*",
-      dest: "dist/res",
-      options: {
-        verbose: true
-      }
+      targets: [
+        { src: 'src/lua/res/*', dest: 'dist/res' },
+      ]
     })
   ],
 
