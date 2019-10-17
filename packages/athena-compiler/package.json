@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/aergoio/athena#readme",
   "devDependencies": {
-    "rollup-plugin-cpy": "^1.1.0"
+    "rollup-plugin-copy": "^3.1.0"
   },
   "dependencies": {}
 }
