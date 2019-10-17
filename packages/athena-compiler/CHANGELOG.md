@@ -1,3 +1,7 @@
+## 0.1.4 - Upgrade compier binary
+
+* Upgrade compiler binary to v1.3.0
+
 ## 0.1.3 - Upgrade compier binary
 
 * Upgrade compiler binary to v1.1.1
