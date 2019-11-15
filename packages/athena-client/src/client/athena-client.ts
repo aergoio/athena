@@ -7,7 +7,7 @@ import { ContractInterface } from '../contract';
 
 import Transaction from './transaction';
 
-const contractTxSuccesses = ["CREATED", "SUCCESS"];
+const contractTxSuccesses = [ "CREATED", "SUCCESS","RECREATED" ];
 
 /**
  * In charge of client interaction specially on aergo smart contract.
@@ -73,6 +73,35 @@ export class AthenaClient {
     deployResult.contractInterface = contractInterface;
 
     return deployResult;
+  }
+
+  async redeploy(account: Account, target: string, deployment: Deployment, feeLimit: number): Promise<DeployResult> {
+    assertNotEmpty(account, "Account should not be empty");
+    assertNotEmpty(target, "Redeploy target should not be empty");
+    assertNotEmpty(deployment, "Deployment should not be empty");
+    assertNotEmpty(feeLimit, "Fee limit should not be empty");
+
+    const chainIdHash = await this.getChainIdHash();
+    const creator = account.address;
+
+    const trier = async (nonce: number): Promise<string> => {
+      const rawTx = Transaction.redeployTx(creator, target, deployment, feeLimit);
+      rawTx.chainIdHash = chainIdHash;
+      rawTx.nonce = nonce;
+      const signedTx = await account.signTx(rawTx);
+      return await this.client.sendSignedTransaction(signedTx);
+    };
+    const txHash = await this.tryWithNonceRefresh(creator, trier);
+    const receipt = await this.pollingReceipt(txHash);
+
+    const contractAddress = receipt.contractaddress.toString();
+
+    const redeployResult = this.buildExecuteResult(contractAddress, txHash, receipt);
+
+    const contractInterface = await this.getContractInterface(contractAddress);
+    redeployResult.contractInterface = contractInterface;
+
+    return redeployResult;
   }
 
   async execute(account: Account, invocation: Invocation, feeLimit: number): Promise<ExecuteResult> {

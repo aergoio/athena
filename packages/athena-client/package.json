@@ -39,8 +39,8 @@
     "rollup-plugin-typescript2": "^0.21.0"
   },
   "dependencies": {
-    "@herajs/client": "^0.13.2",
-    "@herajs/crypto": "^0.13.2",
+    "@herajs/client": "^0.16.1",
+    "@herajs/crypto": "^0.16.0",
     "lodash": "^4.17.11"
   }
 }
