@@ -16,6 +16,10 @@
     "snippet": "function constructor(${1:args...})\n\t${2:-- body...}\nend"
   },
   {
+    "prefix": "check_delegation",
+    "snippet": "function check_delegation(${1:functionName}, ${2:args...})\n\t${3:-- body...}\nend"
+  },
+  {
     "prefix": "default",
     "snippet": "function default(${1:args...})\n\t${2:-- body...}\nend"
   },
