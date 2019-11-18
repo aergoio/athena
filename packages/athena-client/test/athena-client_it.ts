@@ -16,7 +16,7 @@ const richPassword = "genesispw";
 const executeFunc = "set";
 const queryFunc = "get";
 const newFunc = "newGet";
-const feeLimit = 10000;
+const gasLimit = 1000000;
 
 describe('AthenaClient', () => {
 
@@ -47,6 +47,17 @@ describe('AthenaClient', () => {
       assert.isNotNull(state.balance);
     }).timeout(timeout);
 
+    it('should fetch gas price', async () => {
+      // given
+      const athenaClient = new AthenaClient(endpoint);
+
+      // when
+      const price = await athenaClient.getGasPrice();
+
+      // then
+      assert.isNotNull(price);
+    }).timeout(timeout);
+
     it('should get already deployed contract interface successfully', async () => {
       // given
       const account = await Account.from(richEncrypted, richPassword);
@@ -54,13 +65,34 @@ describe('AthenaClient', () => {
 
       const payload = readFile('/res/payable-with-args.payload');
       const deployment = { payload: payload };
-      const deployed = await athenaClient.deploy(account, deployment, feeLimit).then(r => r.contractAddress);
+      const deployed = await athenaClient.deploy(account, deployment, gasLimit).then(r => r.contractAddress);
 
       // when
       const contractInterface = await athenaClient.getContractInterface(deployed);
 
       // then
       assert.equal(contractInterface.address, deployed);
+    }).timeout(timeout);
+
+    it('should get contract interface correctly', async () => {
+      // given
+      const account = await Account.from(richEncrypted, richPassword);
+      const athenaClient = new AthenaClient(endpoint);
+
+      const payload = readFile('/res/fee-delegation.payload');
+      const deployment = { payload: payload };
+      const deployed = await athenaClient.deploy(account, deployment, gasLimit).then(r => r.contractAddress);
+
+      // when
+      const contractInterface = await athenaClient.getContractInterface(deployed);
+
+      // then
+      assert.equal(contractInterface.address, deployed);
+      contractInterface.abi.functions.forEach(f => {
+        assert.isBoolean(f.view);
+        assert.isBoolean(f.payable);
+        assert.isBoolean(f.feeDelegation);
+      });
     }).timeout(timeout);
 
   })
@@ -76,7 +108,7 @@ describe('AthenaClient', () => {
       const deployment = { payload: payload };
 
       // when
-      const deployResult = await athenaClient.deploy(account, deployment, 0);
+      const deployResult = await athenaClient.deploy(account, deployment, gasLimit);
 
       // then
       const contractInterface = deployResult.contractInterface;
@@ -99,7 +131,7 @@ describe('AthenaClient', () => {
       };
 
       // when
-      const deployResult = await athenaClient.deploy(account, deployment, feeLimit);
+      const deployResult = await athenaClient.deploy(account, deployment, gasLimit);
       const contractInterface = deployResult.contractInterface;
       const query = contractInterface.getInvocation(queryFunc, key);
       const queryResult = await athenaClient.query(query);
@@ -122,7 +154,7 @@ describe('AthenaClient', () => {
       };
 
       // when
-      const deployResult = await athenaClient.deploy(account, deployment, feeLimit);
+      const deployResult = await athenaClient.deploy(account, deployment, gasLimit);
 
       // then
       const contractAddress = deployResult.contractAddress;
@@ -144,14 +176,14 @@ describe('AthenaClient', () => {
       const deployment = {
         payload: payload,
       };
-      const beforeAbi = await athenaClient.deploy(account, deployment, feeLimit).then(r => r.contractInterface);
+      const beforeAbi = await athenaClient.deploy(account, deployment, gasLimit).then(r => r.contractInterface);
 
       // when
       const newPayload = readFile('/res/payable-with-args-with-newfunc.payload');
       const redeployment = {
         payload: newPayload,
       };
-      const afterAbi = await athenaClient.redeploy(account, beforeAbi.address, redeployment, feeLimit)
+      const afterAbi = await athenaClient.redeploy(account, beforeAbi.address, redeployment, gasLimit)
           .then(r => r.contractInterface);
 
       // then
@@ -177,13 +209,13 @@ describe('AthenaClient', () => {
         payload: payload,
         args: [ key, deployIntVal, deployStringVal],
       };
-      const contractInterface = await athenaClient.deploy(account, deployment, feeLimit).then(r => r.contractInterface);
+      const contractInterface = await athenaClient.deploy(account, deployment, gasLimit).then(r => r.contractInterface);
 
       // when
       const executeIntVal = 2;
       const executeStringVal = "value2";
       const execution = contractInterface.getInvocation(executeFunc, key, executeIntVal, executeStringVal);
-      await athenaClient.execute(account, execution, feeLimit);
+      await athenaClient.execute(account, execution, gasLimit);
 
       // then
       const query = contractInterface.getInvocation(queryFunc, key);
@@ -199,7 +231,7 @@ describe('AthenaClient', () => {
 
       const payload = readFile('/res/payable-with-args.payload');
       const deployment = { payload: payload };
-      const contractInterface = await athenaClient.deploy(account, deployment, feeLimit).then(r => r.contractInterface);
+      const contractInterface = await athenaClient.deploy(account, deployment, gasLimit).then(r => r.contractInterface);
 
       // when
       const key = "key"
@@ -208,7 +240,7 @@ describe('AthenaClient', () => {
       const amount = "1000";
       const execution = contractInterface.getInvocation(executeFunc, key, executeIntVal, executeStringVal);
       execution.amount = amount;
-      await athenaClient.execute(account, execution, feeLimit);
+      await athenaClient.execute(account, execution, gasLimit);
 
       // then
       const state = await athenaClient.getState(contractInterface.address);
@@ -223,12 +255,12 @@ describe('AthenaClient', () => {
       const athenaClient = new AthenaClient(endpoint);
 
       const payload = readFile('/res/fee-delegation.payload');
-      const amount = "1000000000000000000000000";
+      const amount = "100000000000000000000000000";
       const deployment = {
         payload: payload,
         amount: amount
       };
-      const contractInterface = await athenaClient.deploy(account, deployment, feeLimit).then(r => r.contractInterface);
+      const contractInterface = await athenaClient.deploy(account, deployment, gasLimit).then(r => r.contractInterface);
 
       // when
       const key = "key";
@@ -236,7 +268,7 @@ describe('AthenaClient', () => {
       const execution = contractInterface.getInvocation(executeFunc, key, value);
       execution.feeDelegation = true;
       const beforeState = await athenaClient.getState(account.address);
-      await athenaClient.execute(account, execution, feeLimit);
+      await athenaClient.execute(account, execution, gasLimit);
 
       // then
       const afterState = await athenaClient.getState(account.address);

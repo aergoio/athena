@@ -40,6 +40,11 @@ export class AthenaClient {
     return { nonce: state.nonce, balance: state.balance };
   }
 
+  async getGasPrice(): Promise<string> {
+    const price = await this.client.getChainInfo().then(i => i.gasprice);
+    return price.formatNumber('aer');
+  }
+
   async getContractInterface(contractAddress: string): Promise<ContractInterface> {
     assertNotEmpty(contractAddress, "Contract address should not be empty");
 
