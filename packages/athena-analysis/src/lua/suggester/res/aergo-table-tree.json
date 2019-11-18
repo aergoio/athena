@@ -271,6 +271,14 @@
           "snippet": "register_view(${1:func...})"
         }
       ]
+    },
+    "fee_delegation": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "fee_delegation(${1:func...})"
+        }
+      ]
     }
   },
   "json": {
