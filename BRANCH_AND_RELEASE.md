@@ -26,4 +26,4 @@ Simple release process.
 6. Make tag : `git tag athena-xxx@vx.x.x`
 7. Publish changelog & tag : `git push && git push origin athena-xxx@vx.x.x`
 8. Publish package to the npm : `yarn publish --access public`
-9. Merge it into master : `git checkout master && git merge develop/athena-xxx && git push origin`
+9. Merge it into master : `git checkout master && git merge develop/xxx && git push origin`
