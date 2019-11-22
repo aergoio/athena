@@ -23,14 +23,19 @@ export class ContractInterface {
     return this._abi;
   }
 
-  getInvocation(targetFunction: string, ...args: any): Invocation {
+  getInvocation(targetFunction: string, ...args: any): Invocation | undefined {
     assertNotEmpty(targetFunction);
 
     // @ts-ignore
-    const functionCall = this.delegate[targetFunction](...args);
+    const funcObject = this.delegate[targetFunction];
+    if (typeof funcObject === "undefined") {
+      return undefined;
+    }
 
+    const functionCall = funcObject(...args);
     return {
-      functionCall: functionCall
+      functionCall: functionCall,
+      feeDelegation: false
     };
   }
 

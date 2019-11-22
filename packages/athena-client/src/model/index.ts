@@ -14,6 +14,7 @@ export interface Deployment {
 
 export interface Invocation extends Query {
   amount?: string;
+  feeDelegation?: boolean;
 }
 
 export interface Query {
