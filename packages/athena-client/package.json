@@ -1,6 +1,6 @@
 {
   "name": "@aergo/athena-client",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Aergo client wrapper for interacting with aergo node.",
   "main": "dist/athena-client.cjs.js",
   "module": "dist/athena-client.esm.js",
