@@ -23,10 +23,8 @@ describe('AthenaClient', () => {
   describe('Fetch', () => {
 
     it('should fetch blockchain status', async () => {
-      // given
-      const athenaClient = new AthenaClient(endpoint);
-
       // when
+      const athenaClient = new AthenaClient(endpoint);
       const status = await athenaClient.getBlockchainStatus();
 
       // then
@@ -35,11 +33,9 @@ describe('AthenaClient', () => {
     }).timeout(timeout);
 
     it('should fetch account state', async () => {
-      // given
+      // when
       const account = await Account.from(richEncrypted, richPassword);
       const athenaClient = new AthenaClient(endpoint);
-
-      // when
       const state = await athenaClient.getState(account.address);
 
       // then
@@ -48,10 +44,8 @@ describe('AthenaClient', () => {
     }).timeout(timeout);
 
     it('should fetch gas price', async () => {
-      // given
-      const athenaClient = new AthenaClient(endpoint);
-
       // when
+      const athenaClient = new AthenaClient(endpoint);
       const price = await athenaClient.getGasPrice();
 
       // then
@@ -100,14 +94,11 @@ describe('AthenaClient', () => {
   describe('Deploy', () => {
 
     it('should deploy successfully', async () => {
-      // given
+      // when
       const account = await Account.from(richEncrypted, richPassword);
       const athenaClient = new AthenaClient(endpoint);
-
       const payload = readFile('/res/payable-with-args.payload');
       const deployment = { payload: payload };
-
-      // when
       const deployResult = await athenaClient.deploy(account, deployment, gasLimit);
 
       // then
@@ -255,7 +246,7 @@ describe('AthenaClient', () => {
       const athenaClient = new AthenaClient(endpoint);
 
       const payload = readFile('/res/fee-delegation.payload');
-      const amount = "100000000000000000000000000";
+      const amount = "100000000000000000000";
       const deployment = {
         payload: payload,
         amount: amount
