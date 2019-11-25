@@ -1,3 +1,9 @@
+# Changelog
+
+## 0.2.0 - Aergo hardfork
+
+* Upgrade compiler binary to v0.2.0
+
 ## 0.1.4 - Upgrade compier binary
 
 * Upgrade compiler binary to v1.3.0
