@@ -1,3 +1,7 @@
+## 0.2.1 - keystore
+
+- Support [keystore format](https://github.com/aergoio/aergo/pull/102)
+
 ## 0.2.0 - aergo hardfork (v2.0.0)
 
 - Support gas limit
