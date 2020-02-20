@@ -1,12 +1,9 @@
 import {
-  createIdentity,
-  identifyFromPrivateKey,
-  decodePrivateKey,
-  decryptPrivateKey,
-  encryptPrivateKey,
-  encodePrivateKey,
-  signTransaction,
-  hashTransaction
+  createIdentity, identifyFromPrivateKey,
+  encodePrivateKey, decodePrivateKey,
+  encryptPrivateKey, decryptPrivateKey,
+  signTransaction, hashTransaction,
+  identityFromKeystore, keystoreFromPrivateKey,
 } from '@herajs/crypto';
 import _ from 'lodash';
 
@@ -28,9 +25,9 @@ export class Account {
   }
 
   /**
-   * Decrypt account identity from encrypted one.
+   * Decrypt account identity from wallet import format.
    *
-   * @param encryptedPrivateKey an encrypted private key
+   * @param encryptedPrivateKey an encrypted wallet import format
    * @param password a password to decrypt encrypted one
    *
    * @return a decrypted identity
@@ -43,6 +40,23 @@ export class Account {
     const decryptedBytes = decryptPrivateKey(encryptedBytes, password);
 
     const identity = identifyFromPrivateKey(decryptedBytes);
+    return new Account(identity.address, identity.publicKey, identity.privateKey, identity.keyPair);
+  }
+
+  /**
+   * Decrypt account identity from json keystore.
+   *
+   * @param json a keystore in json
+   * @param password a password to decrypt encrypted one
+   *
+   * @return a decrypted identity
+   */
+  static fromKeyStore = async (json: string, password: string): Promise<Account> => {
+    assertNotEmpty(json, "Key json file should not be empty");
+    assertNotEmpty(password, "Password to decrypt should not be empty");
+
+    const keystore = JSON.parse(json);
+    const identity = await identityFromKeystore(keystore, password);
     return new Account(identity.address, identity.publicKey, identity.privateKey, identity.keyPair);
   }
 
@@ -72,6 +86,20 @@ export class Account {
     const encryptedEncoded = encodePrivateKey(Buffer.from(encryptedBytes));
 
     return encryptedEncoded;
+  }
+
+  /**
+   * Encrypt account identity with password as json keystore.
+   *
+   * @param password a password to encrypt
+   *
+   * @return a json keystore
+   */
+  exportAsKeyStore = async (password: string): Promise<string> => {
+    assertNotEmpty(password, "Password to encrypt should not be empty");
+
+    const keystore = await keystoreFromPrivateKey(this.privateKey, password, { n: 1 << 10 });
+    return JSON.stringify(keystore);
   }
 
   /**
