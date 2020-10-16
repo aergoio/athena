@@ -88,6 +88,22 @@
         }
       ]
     },
+    "isContract": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "isContract(${1:address})"
+        }
+      ]
+    },
+    "isFeeDelegation": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "isFeeDelegation()"
+        }
+      ]
+    },
     "print": {
       "__possibleValues": [
         {
@@ -243,6 +259,14 @@
         {
           "type": "function",
           "snippet": "prepare(\"${1:statement}\")"
+        }
+      ]
+    },
+    "last_insert_rowid": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "last_insert_rowid()"
         }
       ]
     }
