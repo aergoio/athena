@@ -470,5 +470,309 @@
         }
       ]
     }
+  },
+  "string": {
+    "byte": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "byte(${1:str}, ${2:start}, ${3:end})"
+        }
+      ]
+    },
+    "char": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "char(${1:charCode...})"
+        }
+      ]
+    },
+    "dump": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "dump(${1:function})"
+        }
+      ]
+    },
+    "find": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "find(${1:str}, ${2:pattern}, ${3:index}, ${4:plain})"
+        }
+      ]
+    },
+    "format": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "format(\"${1:text}\", ${2:value...})"
+        }
+      ]
+    },
+    "gmatch": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "gmatch(${1:str}, ${2:pattern})"
+        }
+      ]
+    },
+    "gsub": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "gsub(${1:str}, ${2:pattern}, ${3:replace}, ${4:n})"
+        }
+      ]
+    },
+    "len": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "len(${1:str})"
+        }
+      ]
+    },
+    "lower": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "lower(${1:str})"
+        }
+      ]
+    },
+    "match": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "match(${1:str}, ${2:pattern}, ${3:index})"
+        }
+      ]
+    },
+    "rep": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "rep(${1:str}, ${2:n})"
+        }
+      ]
+    },
+    "reverse": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "reverse(${1:str})"
+        }
+      ]
+    },
+    "sub": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "sub(${1:str}, ${2:start}, ${3:end})"
+        }
+      ]
+    },
+    "upper": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "upper(${1:str})"
+        }
+      ]
+    }
+  },
+  "math": {
+    "abs": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "abs(${1:x})"
+        }
+      ]
+    },
+    "ceil": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "ceil(${1:x})"
+        }
+      ]
+    },
+    "floor": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "floor(${1:x})"
+        }
+      ]
+    },
+    "pow": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "pow(${1:base}, ${2:exp})"
+        }
+      ]
+    },
+    "max": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "max(${1:v1}, ${2:v2...})"
+        }
+      ]
+    },
+    "min": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "min(${1:v1}, ${2:v2...})"
+        }
+      ]
+    }
+  },
+  "table": {
+    "concat": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "concat(${1:table}, ${2:separator}, ${3:start}, ${4:end})"
+        }
+      ]
+    },
+    "insert": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "insert(${1:table}, ${2:pos}, ${3:item})"
+        }
+      ]
+    },
+    "maxn": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "maxn(${1:table})"
+        }
+      ]
+    },
+    "remove": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "remove(${1:table}, ${2:pos})"
+        }
+      ]
+    },
+    "sort": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "sort(${1:table}, ${2:comparator})"
+        }
+      ]
+    }
+  },
+  "bit": {
+    "tobit": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "tobit(${1:x})"
+        }
+      ]
+    },
+    "tohex": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "tohex(${1:x}, ${2:n})"
+        }
+      ]
+    },
+    "bnot": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "bnot(${1:x})"
+        }
+      ]
+    },
+    "band": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "band(${1:v1}, ${2:v2...})"
+        }
+      ]
+    },
+    "bor": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "bor(${1:v1}, ${2:v2...})"
+        }
+      ]
+    },
+    "bxor": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "bxor(${1:v1}, ${2:v2...})"
+        }
+      ]
+    },
+    "lshift": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "lshift(${1:x}, ${2:n})"
+        }
+      ]
+    },
+    "rshift": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "rshift(${1:x}, ${2:n})"
+        }
+      ]
+    },
+    "arshift": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "arshift(${1:x}, ${2:n})"
+        }
+      ]
+    },
+    "rol": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "rol(${1:x}, ${2:n})"
+        }
+      ]
+    },
+    "ror": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "ror(${1:x}, ${2:n})"
+        }
+      ]
+    },
+    "bswap": {
+      "__possibleValues": [
+        {
+          "type": "function",
+          "snippet": "bswap(${1:x})"
+        }
+      ]
+    }
   }
 }
