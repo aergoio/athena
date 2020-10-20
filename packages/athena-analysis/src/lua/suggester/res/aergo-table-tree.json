@@ -242,7 +242,7 @@
       "__possibleValues": [
         {
           "type": "function",
-          "snippet": "exec(\"${1:statement}\")"
+          "snippet": "exec(\"${1:statement}\", ${2:values...})"
         }
       ]
     },
@@ -250,7 +250,7 @@
       "__possibleValues": [
         {
           "type": "function",
-          "snippet": "query(\"${1:statement}\")"
+          "snippet": "query(\"${1:statement}\", ${2:values...})"
         }
       ]
     },
